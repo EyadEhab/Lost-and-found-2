@@ -372,14 +372,13 @@ public class DBConnection {
         // Assuming simple tables for now or defaults.
         String sql = "";
         if ("Student".equalsIgnoreCase(table)) {
-            // ERD shows: AcademicYear. Access check showed Major is invalid.
-            sql = "INSERT INTO STUDENT (UserID, AcademicYear) VALUES (?, '1')";
+            // ERD shows: AcademicYear.
+            sql = "INSERT INTO STUDENT (UserID, AcademicYear) VALUES (?, ?)";
         } else if ("Officer".equalsIgnoreCase(table)) {
-            // ERD shows: SecurityBadgeNumber. Use unique value to avoid constraint
-            // violation.
+            // ERD shows: SecurityBadgeNumber.
             sql = "INSERT INTO OFFICER (UserID, SecurityBadgeNumber) VALUES (?, ?)";
         } else if ("Admin".equalsIgnoreCase(table)) {
-            sql = "INSERT INTO ADMIN (UserID, Permissions) VALUES (?, 'Basic')";
+            sql = "INSERT INTO ADMIN (UserID, Permissions) VALUES (?, ?)";
         }
 
         if (!sql.isEmpty()) {
@@ -400,7 +399,7 @@ public class DBConnection {
     /**
      * Add new user
      */
-    public static boolean addUser(int id, String name, String email, String password, String role) {
+    public static boolean addUser(String name, String email, String password, String role) {
         // UserID is an IDENTITY column. We omit it from the insert.
         String insertUser = "INSERT INTO [User] (Name, Email, PasswordHash, Role) VALUES (?, ?, ?, ?)";
         try (Connection conn = getInstance().getConnection()) {
