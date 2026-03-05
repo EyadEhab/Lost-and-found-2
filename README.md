@@ -12,7 +12,7 @@ Before you begin, ensure you have the following installed on your machine:
 
 1.  **Java Development Kit (JDK):** Version 11 or higher.
 2.  **Microsoft SQL Server:** Ensure it's running locally on port.
-3.  **IDE:** [NetBeans](https://netbeans.apache.org/front/main/index.html) is highly recommended for building and running if u dont have it u dont have to its not a must.
+3.  **IDE:** [NetBeans](https://netbeans.apache.org/front/main/index.html) is highly recommended for building and running if u dont have it u dont have to, its not a must.
 4.  **SQL Server JDBC Driver:** Included in the project (`mssql-jdbc-13.2.1.jre11.jar`).
 
 ---
