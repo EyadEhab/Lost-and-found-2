@@ -13,10 +13,12 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import controller.MatchingController;
 import entity.Item;
+import factory.ui.UIFactory;
 
 /**
  * Search Window for Lost and Found items
- * Provides search and filtering functionality following Three-Layer Architecture
+ * Provides search and filtering functionality following Three-Layer
+ * Architecture
  */
 public class SearchWindow extends JFrame {
 
@@ -33,16 +35,9 @@ public class SearchWindow extends JFrame {
     // Controller
     private MatchingController matchingController;
 
-    // Colors and styling
-    private static final Color PRIMARY_COLOR = new Color(70, 130, 180);
-    private static final Color SECONDARY_COLOR = new Color(240, 248, 255);
-    private static final Color HEADER_COLOR = new Color(100, 149, 237);
-    private static final Color EVEN_ROW_COLOR = new Color(248, 250, 252);
-    private static final Color ODD_ROW_COLOR = Color.WHITE;
-
     // Categories
     private static final String[] CATEGORIES = {
-        "All Categories", "Electronics", "Books", "Personal Items", "Bags", "Accessories"
+            "All Categories", "Electronics", "Books", "Personal Items", "Bags", "Accessories"
     };
 
     /**
@@ -78,40 +73,37 @@ public class SearchWindow extends JFrame {
      * Initialize UI components
      */
     private void initializeComponents() {
+        UIFactory factory = core.ThemeManager.getInstance().getFactory();
+
         // Search field with enhanced styling
-        searchField = new JTextField(25);
+        searchField = factory.createTextField(25);
         searchField.setToolTipText("Enter keywords to search for lost items (e.g., 'wallet', 'phone', 'keys')");
         searchField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        searchField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
-            BorderFactory.createEmptyBorder(8, 10, 8, 10)
-        ));
-        searchField.setBackground(Color.WHITE);
 
         // Search icon label
-        searchIcon = new JLabel("Search:");
+        searchIcon = factory.createLabel("Search:");
         searchIcon.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        searchIcon.setForeground(PRIMARY_COLOR);
 
         // Category combo box with enhanced styling
         categoryCombo = new JComboBox<>(CATEGORIES);
         categoryCombo.setSelectedIndex(0); // Default to "All Categories"
         categoryCombo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        categoryCombo.setBackground(Color.WHITE);
-        categoryCombo.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
+        categoryCombo.setBackground(factory.getSurfaceColor());
+        categoryCombo.setForeground(factory.getTextColor());
+        categoryCombo.setBorder(BorderFactory.createLineBorder(
+                core.ThemeManager.getInstance().isDarkMode() ? new Color(80, 80, 80) : new Color(200, 200, 200), 1));
 
         // Category icon label
-        categoryIcon = new JLabel("Category:");
+        categoryIcon = factory.createLabel("Category:");
         categoryIcon.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        categoryIcon.setForeground(PRIMARY_COLOR);
 
         // Results count label
-        resultsCountLabel = new JLabel("Ready to search...");
-        resultsCountLabel.setFont(new Font("Segoe UI", Font.ITALIC, 12));
-        resultsCountLabel.setForeground(new Color(100, 100, 100));
+        resultsCountLabel = factory.createLabel("Ready to search...");
+        resultsCountLabel.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 14));
+        resultsCountLabel.setForeground(factory.getTextColor());
 
         // Results table with enhanced styling
-        String[] columnNames = {"Photo", "Title", "Category", "Description", "Location", "Date Found", "Status"};
+        String[] columnNames = { "Photo", "Title", "Category", "Description", "Location", "Date Found", "Status" };
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -123,30 +115,33 @@ public class SearchWindow extends JFrame {
         resultsTable.getTableHeader().setReorderingAllowed(false);
 
         // Enhanced table styling
-        resultsTable.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        resultsTable.setRowHeight(30);
-        resultsTable.setGridColor(new Color(230, 230, 230));
+        resultsTable.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        resultsTable.setRowHeight(40);
+        resultsTable.setGridColor(
+                core.ThemeManager.getInstance().isDarkMode() ? new Color(70, 70, 70) : new Color(210, 210, 210));
         resultsTable.setShowGrid(true);
         resultsTable.setIntercellSpacing(new Dimension(1, 1));
+        resultsTable.setSelectionBackground(factory.getAccentColor());
+        resultsTable.setSelectionForeground(Color.WHITE);
 
         // Custom table header
         JTableHeader header = resultsTable.getTableHeader();
-        header.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        header.setBackground(HEADER_COLOR);
+        header.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        header.setBackground(factory.getAccentColor());
         header.setForeground(Color.WHITE);
-        header.setPreferredSize(new Dimension(header.getWidth(), 35));
+        header.setPreferredSize(new Dimension(header.getWidth(), 40));
 
         // Custom cell renderer for alternating row colors
         resultsTable.setDefaultRenderer(Object.class, new AlternatingRowRenderer());
 
         // Set column widths
-        resultsTable.getColumnModel().getColumn(0).setPreferredWidth(80);  // Photo
+        resultsTable.getColumnModel().getColumn(0).setPreferredWidth(80); // Photo
         resultsTable.getColumnModel().getColumn(1).setPreferredWidth(160); // Title
         resultsTable.getColumnModel().getColumn(2).setPreferredWidth(110); // Category
         resultsTable.getColumnModel().getColumn(3).setPreferredWidth(220); // Description
         resultsTable.getColumnModel().getColumn(4).setPreferredWidth(120); // Location
         resultsTable.getColumnModel().getColumn(5).setPreferredWidth(100); // Date Found
-        resultsTable.getColumnModel().getColumn(6).setPreferredWidth(90);  // Status
+        resultsTable.getColumnModel().getColumn(6).setPreferredWidth(90); // Status
     }
 
     /**
@@ -154,53 +149,89 @@ public class SearchWindow extends JFrame {
      */
     private void setupLayout() {
         setLayout(new BorderLayout(0, 10));
-        getContentPane().setBackground(SECONDARY_COLOR);
+        UIFactory factory = core.ThemeManager.getInstance().getFactory();
+        getContentPane().setBackground(factory.getBackgroundColor());
 
-        // Top panel for search controls with enhanced styling
+        // Top toolbar for Theme & Sign Out
+        JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        toolbar.setBackground(factory.getBackgroundColor());
+
+        JButton toggleThemeBtn = factory.createButton("Toggle Theme");
+        toggleThemeBtn.addActionListener(e -> {
+            core.ThemeManager.getInstance().toggleTheme();
+            dispose();
+            new SearchWindow().setVisible(true);
+        });
+
+        JButton signOutBtn = factory.createButton("Sign Out");
+        signOutBtn.addActionListener(e -> {
+            core.SessionManager.getInstance().clearSession();
+            dispose();
+            new LoginWindow().setVisible(true);
+        });
+
+        toolbar.add(toggleThemeBtn);
+        toolbar.add(signOutBtn);
+
+        // Search panel setup
         searchPanel = new JPanel(new GridBagLayout());
         searchPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(PRIMARY_COLOR, 2),
-            BorderFactory.createEmptyBorder(15, 20, 15, 20)
-        ));
-        searchPanel.setBackground(Color.WHITE);
+                BorderFactory.createLineBorder(factory.getAccentColor(), 1),
+                BorderFactory.createEmptyBorder(15, 20, 15, 20)));
+        searchPanel.setBackground(factory.getSurfaceColor());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
 
         // Search section
-        gbc.gridx = 0; gbc.gridy = 0; gbc.anchor = GridBagConstraints.EAST;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.EAST;
         searchPanel.add(searchIcon, gbc);
 
-        gbc.gridx = 1; gbc.anchor = GridBagConstraints.WEST; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         searchPanel.add(searchField, gbc);
 
         // Category section
-        gbc.gridx = 2; gbc.anchor = GridBagConstraints.EAST; gbc.fill = GridBagConstraints.NONE; gbc.weightx = 0.0;
+        gbc.gridx = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
         searchPanel.add(categoryIcon, gbc);
 
-        gbc.gridx = 3; gbc.anchor = GridBagConstraints.WEST; gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.NONE;
         searchPanel.add(categoryCombo, gbc);
-
-        // Results count
-        gbc.gridx = 4; gbc.anchor = GridBagConstraints.EAST; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
-        searchPanel.add(resultsCountLabel, gbc);
 
         // Center panel for results with enhanced styling
         JScrollPane scrollPane = new JScrollPane(resultsTable);
         scrollPane.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(PRIMARY_COLOR, 2),
-            BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        ));
-        scrollPane.setBackground(Color.WHITE);
-        scrollPane.getViewport().setBackground(Color.WHITE);
+                BorderFactory.createLineBorder(factory.getAccentColor(), 1),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+
+        scrollPane.setBackground(factory.getBackgroundColor());
+        scrollPane.getViewport().setBackground(factory.getBackgroundColor());
+        resultsTable.setBackground(factory.getSurfaceColor());
+        resultsTable.setForeground(factory.getTextColor());
+        resultsTable.setGridColor(
+                core.ThemeManager.getInstance().isDarkMode() ? new Color(60, 60, 60) : new Color(230, 230, 230));
 
         // Add padding around the main content
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        mainPanel.setBackground(SECONDARY_COLOR);
+        mainPanel.setBackground(factory.getBackgroundColor());
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
-        add(searchPanel, BorderLayout.NORTH);
+        JPanel container = new JPanel(new BorderLayout());
+        container.setBackground(factory.getBackgroundColor());
+        container.add(toolbar, BorderLayout.NORTH);
+        container.add(searchPanel, BorderLayout.CENTER);
+
+        add(container, BorderLayout.NORTH);
         add(mainPanel, BorderLayout.CENTER);
     }
 
@@ -211,11 +242,19 @@ public class SearchWindow extends JFrame {
         // Document listener for search field (real-time search)
         searchField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) { performSearch(); }
+            public void insertUpdate(DocumentEvent e) {
+                performSearch();
+            }
+
             @Override
-            public void removeUpdate(DocumentEvent e) { performSearch(); }
+            public void removeUpdate(DocumentEvent e) {
+                performSearch();
+            }
+
             @Override
-            public void changedUpdate(DocumentEvent e) { performSearch(); }
+            public void changedUpdate(DocumentEvent e) {
+                performSearch();
+            }
         });
 
         // Action listener for category combo box
@@ -246,9 +285,9 @@ public class SearchWindow extends JFrame {
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
-                "Error performing search: " + e.getMessage(),
-                "Search Error",
-                JOptionPane.ERROR_MESSAGE);
+                    "Error performing search: " + e.getMessage(),
+                    "Search Error",
+                    JOptionPane.ERROR_MESSAGE);
             resultsCountLabel.setText("Search error occurred");
             resultsCountLabel.setForeground(Color.RED);
         }
@@ -265,11 +304,12 @@ public class SearchWindow extends JFrame {
 
         // Add items to table
         for (Item item : items) {
-            String photoStatus = (item.getPhotoPath() != null && !item.getPhotoPath().trim().isEmpty()) ? "[PHOTO]" : "[NO PHOTO]";
+            String photoStatus = (item.getPhotoPath() != null && !item.getPhotoPath().trim().isEmpty()) ? "[PHOTO]"
+                    : "[NO PHOTO]";
             String title = generateTitle(item);
             String category = item.getCategory() != null ? item.getCategory() : "Unknown";
             String description = truncateDescription(item.getDescription());
-            String location = extractLocation(item.getTags());
+            String location = item.getLocation() != null ? item.getLocation() : "Unknown";
             String dateFound = item.getDateFound() != null ? dateFormat.format(item.getDateFound()) : "Unknown";
             String status = item.getStatus();
 
@@ -282,7 +322,7 @@ public class SearchWindow extends JFrame {
                 status = "[CLAIMED] Claimed";
             }
 
-            Object[] row = {photoStatus, title, category, description, location, dateFound, status};
+            Object[] row = { photoStatus, title, category, description, location, dateFound, status };
             tableModel.addRow(row);
         }
 
@@ -308,29 +348,9 @@ public class SearchWindow extends JFrame {
      * Truncate description for display
      */
     private String truncateDescription(String description) {
-        if (description == null) return "";
+        if (description == null)
+            return "";
         return description.length() > 50 ? description.substring(0, 50) + "..." : description;
-    }
-
-    /**
-     * Extract location from tags
-     */
-    private String extractLocation(String tags) {
-        if (tags == null) return "Unknown";
-
-        // Look for "Location: " pattern in tags
-        int locationIndex = tags.indexOf("Location: ");
-        if (locationIndex != -1) {
-            String location = tags.substring(locationIndex + 10);
-            // Remove any trailing content after comma or semicolon
-            int endIndex = Math.min(
-                location.indexOf(',') != -1 ? location.indexOf(',') : location.length(),
-                location.indexOf(';') != -1 ? location.indexOf(';') : location.length()
-            );
-            return location.substring(0, endIndex).trim();
-        }
-
-        return "Unknown";
     }
 
     /**
@@ -392,49 +412,53 @@ public class SearchWindow extends JFrame {
                 boolean isSelected, boolean hasFocus, int row, int column) {
             Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
+            UIFactory factory = core.ThemeManager.getInstance().getFactory();
+            Color bgColor = factory.getBackgroundColor();
+            Color surfaceColor = factory.getSurfaceColor();
+            Color textColor = factory.getTextColor();
+
             // Set alternating row colors
             if (!isSelected) {
                 if (row % 2 == 0) {
-                    c.setBackground(EVEN_ROW_COLOR);
+                    c.setBackground(surfaceColor);
                 } else {
-                    c.setBackground(ODD_ROW_COLOR);
+                    c.setBackground(bgColor);
                 }
+                c.setForeground(textColor);
             } else {
                 c.setBackground(table.getSelectionBackground());
+                c.setForeground(table.getSelectionForeground());
             }
+
+            boolean isDark = core.ThemeManager.getInstance().isDarkMode();
 
             // Special styling for photo column
             if (column == 0 && value != null) { // Photo column
                 String photoStatus = value.toString();
                 if (photoStatus.contains("[PHOTO]")) {
-                    c.setForeground(new Color(40, 167, 69)); // Green for has photo
+                    c.setForeground(isDark ? new Color(100, 255, 100) : new Color(40, 167, 69)); // Brighter green for
+                                                                                                 // dark mode
                     c.setFont(c.getFont().deriveFont(Font.BOLD));
                 } else if (photoStatus.contains("[NO PHOTO]")) {
-                    c.setForeground(Color.GRAY); // Gray for no photo
+                    c.setForeground(isDark ? new Color(150, 150, 150) : Color.GRAY);
                     c.setFont(c.getFont().deriveFont(Font.ITALIC));
-                } else {
-                    c.setForeground(Color.BLACK);
-                    c.setFont(c.getFont().deriveFont(Font.PLAIN));
                 }
             }
             // Special styling for status column
             else if (column == 6 && value != null) { // Status column
                 String status = value.toString();
                 if (status.contains("[AVAILABLE]")) {
-                    c.setForeground(new Color(40, 167, 69)); // Green for available
+                    c.setForeground(isDark ? new Color(100, 255, 100) : new Color(40, 167, 69));
                     c.setFont(c.getFont().deriveFont(Font.BOLD));
                 } else if (status.contains("[PENDING]") || "Processing Claim".equals(status)) {
-                    c.setForeground(new Color(255, 193, 7)); // Orange for pending
+                    c.setForeground(isDark ? new Color(255, 215, 0) : new Color(200, 150, 0)); // Gold/Orange
                     c.setFont(c.getFont().deriveFont(Font.BOLD));
                 } else if (status.contains("[CLAIMED]")) {
-                    c.setForeground(new Color(220, 53, 69)); // Red for claimed
+                    c.setForeground(isDark ? new Color(255, 100, 100) : new Color(220, 53, 69)); // Bright red
                     c.setFont(c.getFont().deriveFont(Font.BOLD));
-                } else {
-                    c.setForeground(Color.BLACK);
-                    c.setFont(c.getFont().deriveFont(Font.PLAIN));
                 }
             } else {
-                c.setForeground(Color.BLACK);
+                c.setForeground(textColor);
                 c.setFont(c.getFont().deriveFont(Font.PLAIN));
             }
 

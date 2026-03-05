@@ -20,14 +20,30 @@ public class DBConnection {
 
     static {
         Properties props = new Properties();
-        try (FileInputStream fis = new FileInputStream("db.properties")) {
-            props.load(fis);
-            URL = props.getProperty("db.url");
-            USER = props.getProperty("db.user");
-            PASS = props.getProperty("db.pass");
-        } catch (IOException e) {
-            System.err.println("Fatal: Could not load db.properties. Database connection will fail.");
-            e.printStackTrace();
+        String[] possiblePaths = { "db.properties", "Master dcd java/db.properties" };
+        boolean loaded = false;
+
+        for (String path : possiblePaths) {
+            java.io.File file = new java.io.File(path);
+            if (file.exists()) {
+                try (FileInputStream fis = new FileInputStream(file)) {
+                    props.load(fis);
+                    URL = props.getProperty("db.url");
+                    USER = props.getProperty("db.user");
+                    PASS = props.getProperty("db.pass");
+                    loaded = true;
+                    System.out.println("Loaded database configuration from: " + file.getAbsolutePath());
+                    break;
+                } catch (IOException e) {
+                    System.err.println("Error reading " + path + ": " + e.getMessage());
+                }
+            }
+        }
+
+        if (!loaded) {
+            System.err.println("Fatal: Could not find or load db.properties in any of: "
+                    + java.util.Arrays.toString(possiblePaths));
+            System.err.println("Current working directory: " + System.getProperty("user.dir"));
         }
     }
 
@@ -63,7 +79,10 @@ public class DBConnection {
             System.out.println("Database connection established successfully");
 
         } catch (ClassNotFoundException e) {
-            throw new SQLException("SQL Server JDBC Driver not found", e);
+            String msg = "SQL Server JDBC Driver not found. Please ensure the mssql-jdbc jar is in your classpath.\n"
+                    + "If you are using VS Code, check if 'Master dcd java/lib/mssql-jdbc-13.2.1.jre8.jar' is in 'Referenced Libraries'.";
+            System.err.println(msg);
+            throw new SQLException(msg, e);
         } catch (SQLException e) {
             System.err.println("Failed to connect to database: " + e.getMessage());
             throw e;
@@ -356,8 +375,9 @@ public class DBConnection {
             // ERD shows: AcademicYear. Access check showed Major is invalid.
             sql = "INSERT INTO STUDENT (UserID, AcademicYear) VALUES (?, '1')";
         } else if ("Officer".equalsIgnoreCase(table)) {
-            // ERD shows: SecurityBadgeNumber
-            sql = "INSERT INTO OFFICER (UserID, SecurityBadgeNumber) VALUES (?, 'TEMP')";
+            // ERD shows: SecurityBadgeNumber. Use unique value to avoid constraint
+            // violation.
+            sql = "INSERT INTO OFFICER (UserID, SecurityBadgeNumber) VALUES (?, ?)";
         } else if ("Admin".equalsIgnoreCase(table)) {
             sql = "INSERT INTO ADMIN (UserID, Permissions) VALUES (?, 'Basic')";
         }
@@ -365,6 +385,13 @@ public class DBConnection {
         if (!sql.isEmpty()) {
             try (java.sql.PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, id);
+                if ("Officer".equalsIgnoreCase(table)) {
+                    pstmt.setString(2, "OFF-" + id);
+                } else if ("Admin".equalsIgnoreCase(table)) {
+                    pstmt.setString(2, "Basic");
+                } else if ("Student".equalsIgnoreCase(table)) {
+                    pstmt.setString(2, "1");
+                }
                 pstmt.executeUpdate();
             }
         }
@@ -419,6 +446,18 @@ public class DBConnection {
         try (Connection conn = getInstance().getConnection()) {
             conn.setAutoCommit(false);
             try {
+                // Clean up dependent records that reference this user
+                try (java.sql.PreparedStatement pstmt = conn
+                        .prepareStatement("DELETE FROM CLAIM WHERE ClaimedByUserID = ?")) {
+                    pstmt.setInt(1, userId);
+                    pstmt.executeUpdate();
+                }
+                try (java.sql.PreparedStatement pstmt = conn
+                        .prepareStatement("DELETE FROM FOUND_ITEM WHERE UploadedByUserID = ?")) {
+                    pstmt.setInt(1, userId);
+                    pstmt.executeUpdate();
+                }
+
                 // Remove from all potential role tables to be safe
                 removeFromRoleTable(conn, "ADMIN", userId);
                 removeFromRoleTable(conn, "OFFICER", userId);

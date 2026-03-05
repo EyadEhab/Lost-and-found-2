@@ -1,0 +1,8 @@
+USE master;
+GO
+-- Close any open connections to the database
+ALTER DATABASE LostAndFoundDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+GO
+-- Drop the database you manually created
+DROP DATABASE LostAndFoundDB;
+GO

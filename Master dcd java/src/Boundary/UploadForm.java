@@ -12,7 +12,8 @@ import controller.ItemController;
 
 /**
  * Upload Form for logging found items
- * Provides a comprehensive GUI for item registration following Three-Layer Architecture
+ * Provides a comprehensive GUI for item registration following Three-Layer
+ * Architecture
  */
 public class UploadForm extends JFrame {
 
@@ -37,7 +38,7 @@ public class UploadForm extends JFrame {
 
     // Category options
     private static final String[] CATEGORIES = {
-        "Electronics", "Books", "Personal Items", "Bags", "Accessories"
+            "Electronics", "Books", "Personal Items", "Bags", "Accessories"
     };
 
     /**
@@ -49,7 +50,7 @@ public class UploadForm extends JFrame {
         initializeComponents();
         setupLayout();
         setupListeners();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Lost & Found - Log Found Item");
         setSize(550, 650);
         setLocationRelativeTo(null);
@@ -79,21 +80,21 @@ public class UploadForm extends JFrame {
         txtTitle.setToolTipText("Enter a descriptive title for the found item");
         txtTitle.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         txtTitle.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
-            BorderFactory.createEmptyBorder(8, 10, 8, 10)
-        ));
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+                BorderFactory.createEmptyBorder(8, 10, 8, 10)));
         txtTitle.setBackground(Color.WHITE);
 
-        // Description area with enhanced styling - made much larger for better usability
+        // Description area with enhanced styling - made much larger for better
+        // usability
         txtDescription = new JTextArea(10, 25);
         txtDescription.setLineWrap(true);
         txtDescription.setWrapStyleWord(true);
-        txtDescription.setToolTipText("Provide detailed description of the item (color, brand, condition, size, unique features, markings, etc.)");
+        txtDescription.setToolTipText(
+                "Provide detailed description of the item (color, brand, condition, size, unique features, markings, etc.)");
         txtDescription.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         txtDescription.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
-            BorderFactory.createEmptyBorder(10, 12, 10, 12)
-        ));
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+                BorderFactory.createEmptyBorder(10, 12, 10, 12)));
         txtDescription.setBackground(Color.WHITE);
         // Set tab size for better formatting
         txtDescription.setTabSize(4);
@@ -110,9 +111,8 @@ public class UploadForm extends JFrame {
         txtLocation.setToolTipText("Specify the exact location where the item was found");
         txtLocation.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         txtLocation.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
-            BorderFactory.createEmptyBorder(8, 10, 8, 10)
-        ));
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+                BorderFactory.createEmptyBorder(8, 10, 8, 10)));
         txtLocation.setBackground(Color.WHITE);
 
         // Date spinner (default to current date) with enhanced styling
@@ -121,9 +121,8 @@ public class UploadForm extends JFrame {
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spnDateFound, "yyyy-MM-dd");
         dateEditor.getTextField().setFont(new Font("Segoe UI", Font.PLAIN, 14));
         dateEditor.getTextField().setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
-            BorderFactory.createEmptyBorder(8, 10, 8, 10)
-        ));
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+                BorderFactory.createEmptyBorder(8, 10, 8, 10)));
         spnDateFound.setEditor(dateEditor);
         spnDateFound.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
 
@@ -159,9 +158,8 @@ public class UploadForm extends JFrame {
         // Main form panel with enhanced styling
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(PRIMARY_COLOR, 2),
-            BorderFactory.createEmptyBorder(20, 25, 20, 25)
-        ));
+                BorderFactory.createLineBorder(PRIMARY_COLOR, 2),
+                BorderFactory.createEmptyBorder(20, 25, 20, 25)));
         formPanel.setBackground(Color.WHITE);
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -172,65 +170,97 @@ public class UploadForm extends JFrame {
         Font labelFont = new Font("Segoe UI", Font.BOLD, 14);
 
         // Row 0: Title
-        gbc.gridx = 0; gbc.gridy = 0; gbc.fill = GridBagConstraints.NONE; gbc.weightx = 0.0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
         JLabel titleLabel = new JLabel("Title:");
         titleLabel.setFont(labelFont);
         titleLabel.setForeground(PRIMARY_COLOR);
         formPanel.add(titleLabel, gbc);
 
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         formPanel.add(txtTitle, gbc);
 
         // Row 1: Description
-        gbc.gridx = 0; gbc.gridy = 1; gbc.fill = GridBagConstraints.NONE; gbc.weightx = 0.0;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
         JLabel descLabel = new JLabel("Description:");
         descLabel.setFont(labelFont);
         descLabel.setForeground(PRIMARY_COLOR);
         formPanel.add(descLabel, gbc);
 
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.BOTH; gbc.weightx = 1.0; gbc.weighty = 0.0;
-        // Use the JTextArea directly without JScrollPane for a clean, large writing space
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.0;
+        // Use the JTextArea directly without JScrollPane for a clean, large writing
+        // space
         txtDescription.setPreferredSize(new Dimension(300, 150)); // Width x Height for 10 rows
         formPanel.add(txtDescription, gbc);
 
         // Row 2: Category
-        gbc.gridx = 0; gbc.gridy = 2; gbc.fill = GridBagConstraints.NONE; gbc.weightx = 0.0;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
         JLabel catLabel = new JLabel("Category:");
         catLabel.setFont(labelFont);
         catLabel.setForeground(PRIMARY_COLOR);
         formPanel.add(catLabel, gbc);
 
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         formPanel.add(cmbCategory, gbc);
 
         // Row 3: Location
-        gbc.gridx = 0; gbc.gridy = 3; gbc.fill = GridBagConstraints.NONE; gbc.weightx = 0.0;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
         JLabel locLabel = new JLabel("Location Found:");
         locLabel.setFont(labelFont);
         locLabel.setForeground(PRIMARY_COLOR);
         formPanel.add(locLabel, gbc);
 
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         formPanel.add(txtLocation, gbc);
 
         // Row 4: Date Found
-        gbc.gridx = 0; gbc.gridy = 4; gbc.fill = GridBagConstraints.NONE; gbc.weightx = 0.0;
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
         JLabel dateLabel = new JLabel("Date Found:");
         dateLabel.setFont(labelFont);
         dateLabel.setForeground(PRIMARY_COLOR);
         formPanel.add(dateLabel, gbc);
 
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         formPanel.add(spnDateFound, gbc);
 
         // Row 5: Photo
-        gbc.gridx = 0; gbc.gridy = 5; gbc.fill = GridBagConstraints.NONE; gbc.weightx = 0.0;
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
         JLabel photoLabel = new JLabel("Photo:");
         photoLabel.setFont(labelFont);
         photoLabel.setForeground(PRIMARY_COLOR);
         formPanel.add(photoLabel, gbc);
 
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         JPanel photoPanel = new JPanel(new BorderLayout(10, 0));
         photoPanel.setBackground(Color.WHITE);
         photoPanel.add(btnSelectPhoto, BorderLayout.WEST);
@@ -247,6 +277,7 @@ public class UploadForm extends JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnLogItem.setBackground(SUCCESS_COLOR.darker());
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnLogItem.setBackground(SUCCESS_COLOR);
             }
@@ -294,7 +325,7 @@ public class UploadForm extends JFrame {
 
         // Filter for image files
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "Image files", "jpg", "jpeg", "png", "gif", "bmp");
+                "Image files", "jpg", "jpeg", "png", "gif", "bmp");
         fileChooser.setFileFilter(filter);
 
         int result = fileChooser.showOpenDialog(this);
@@ -339,7 +370,7 @@ public class UploadForm extends JFrame {
 
             // Call controller (View → Controller → DAO)
             int newItemId = itemController.registerNewItem(title, description, category,
-                                                         location, selectedPhotoPath, dateFound);
+                    location, selectedPhotoPath, dateFound);
 
             if (newItemId > 0) {
                 // Success - clear form and show success message

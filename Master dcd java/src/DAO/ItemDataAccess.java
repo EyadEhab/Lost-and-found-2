@@ -59,16 +59,31 @@ public class ItemDataAccess {
     public void removeItem(int id) {
         String sql = "DELETE FROM FOUND_ITEM WHERE ItemID = ?";
 
-        try (Connection conn = DBConnection.getInstance().getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getInstance().getConnection()) {
+            conn.setAutoCommit(false);
+            try {
+                // Delete associated claims first (FK constraint)
+                try (PreparedStatement claimStmt = conn.prepareStatement("DELETE FROM CLAIM WHERE ItemID = ?")) {
+                    claimStmt.setInt(1, id);
+                    claimStmt.executeUpdate();
+                }
 
-            stmt.setInt(1, id);
-            int rowsAffected = stmt.executeUpdate();
+                // Delete the item
+                try (PreparedStatement itemStmt = conn.prepareStatement(sql)) {
+                    itemStmt.setInt(1, id);
+                    int rowsAffected = itemStmt.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println("Item " + id + " deleted successfully.");
-            } else {
-                System.out.println("Item " + id + " not found.");
+                    if (rowsAffected > 0) {
+                        System.out.println("Item " + id + " deleted successfully.");
+                    } else {
+                        System.out.println("Item " + id + " not found.");
+                    }
+                }
+
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
             }
         } catch (SQLException e) {
             System.err.println("Error removing item: " + e.getMessage());
@@ -272,7 +287,7 @@ public class ItemDataAccess {
                 "INSERT INTO [User] (UserID, Name, Email, PasswordHash, Role) VALUES (?, 'Default Officer', 'officer@example.com', 'password', 'Officer'); "
                 +
                 "SET IDENTITY_INSERT [User] OFF;";
-        String insertOfficer = "INSERT INTO OFFICER (UserID, SecurityBadgeNumber) VALUES (?, 'BADGE-001')";
+        String insertOfficer = "INSERT INTO OFFICER (UserID, SecurityBadgeNumber) VALUES (?, ?)";
 
         try (Connection conn = DBConnection.getInstance().getConnection()) {
             boolean exists = false;
@@ -296,6 +311,7 @@ public class ItemDataAccess {
                 // Insert into OFFICER (Child)
                 try (PreparedStatement officerStmt = conn.prepareStatement(insertOfficer)) {
                     officerStmt.setInt(1, officerID);
+                    officerStmt.setString(2, "BADGE-" + officerID);
                     officerStmt.executeUpdate();
                     System.out.println("Seeded default Officer ID: " + officerID);
                 }

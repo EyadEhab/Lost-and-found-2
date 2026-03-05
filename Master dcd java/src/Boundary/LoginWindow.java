@@ -11,11 +11,13 @@ import factory.AdminDashboardCreator;
 import factory.OfficerDashboardCreator;
 import factory.StudentDashboardCreator;
 import factory.ui.UIFactory;
-import factory.ui.LightUIFactory;
+import core.ThemeManager;
 
 public class LoginWindow extends JFrame {
 
-    private final UIFactory uiFactory = new LightUIFactory();
+    private UIFactory getUIFactory() {
+        return ThemeManager.getInstance().getFactory();
+    }
 
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -32,18 +34,25 @@ public class LoginWindow extends JFrame {
     }
 
     private void initComponents() {
+        UIFactory factory = getUIFactory();
+        getContentPane().setBackground(factory.getBackgroundColor());
+
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        panel.setBackground(factory.getBackgroundColor());
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        panel.add(uiFactory.createLabel("Username:"));
-        usernameField = uiFactory.createTextField(15);
+        panel.add(factory.createLabel("Username:"));
+        usernameField = factory.createTextField(15);
         panel.add(usernameField);
 
-        panel.add(uiFactory.createLabel("Password:"));
+        panel.add(factory.createLabel("Password:"));
         passwordField = new JPasswordField();
+        passwordField.setBackground(factory.getSurfaceColor());
+        passwordField.setForeground(factory.getTextColor());
+        passwordField.setCaretColor(factory.getTextColor());
         panel.add(passwordField);
 
-        loginButton = uiFactory.createButton("Login");
+        loginButton = factory.createButton("Login");
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,8 +60,14 @@ public class LoginWindow extends JFrame {
             }
         });
 
-        // Add empty label for spacing
-        panel.add(new JLabel(""));
+        JButton toggleButton = new JButton("Toggle Theme");
+        toggleButton.addActionListener(e -> {
+            ThemeManager.getInstance().toggleTheme();
+            dispose();
+            new LoginWindow().setVisible(true);
+        });
+
+        panel.add(toggleButton);
         panel.add(loginButton);
 
         add(panel);

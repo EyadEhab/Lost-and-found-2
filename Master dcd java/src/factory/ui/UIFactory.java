@@ -11,5 +11,12 @@ public interface UIFactory {
     JLabel createLabel(String text);
 
     JTextField createTextField(int columns);
-}
 
+    java.awt.Color getBackgroundColor();
+
+    java.awt.Color getTextColor();
+
+    java.awt.Color getSurfaceColor();
+
+    java.awt.Color getAccentColor();
+}

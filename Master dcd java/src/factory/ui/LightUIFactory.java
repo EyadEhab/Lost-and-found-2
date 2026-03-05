@@ -20,5 +20,24 @@ public class LightUIFactory implements UIFactory {
     public JTextField createTextField(int columns) {
         return new JTextField(columns);
     }
-}
 
+    @Override
+    public java.awt.Color getBackgroundColor() {
+        return new java.awt.Color(235, 235, 235);
+    }
+
+    @Override
+    public java.awt.Color getTextColor() {
+        return java.awt.Color.BLACK;
+    }
+
+    @Override
+    public java.awt.Color getSurfaceColor() {
+        return java.awt.Color.WHITE;
+    }
+
+    @Override
+    public java.awt.Color getAccentColor() {
+        return new java.awt.Color(70, 130, 180);
+    }
+}
