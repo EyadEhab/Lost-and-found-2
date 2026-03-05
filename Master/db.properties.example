@@ -1,0 +1,5 @@
+# Database Connection Template
+# Rename this file to db.properties and fill in your details
+db.url=jdbc:sqlserver://localhost:1433;databaseName=LostAndFoundDB;encrypt=false;
+db.user=sa
+db.pass=eyad@123

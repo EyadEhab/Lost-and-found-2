@@ -1,0 +1,8 @@
+# Ignore database credentials
+db.properties
+
+# Build artifacts
+bin/
+build/
+nbproject/private/
+*.class
