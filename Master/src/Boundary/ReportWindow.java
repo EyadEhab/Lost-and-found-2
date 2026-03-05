@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 import dataaccess.DBConnection;
+import factory.ui.UIFactory;
+import factory.ui.LightUIFactory;
 
 public class ReportWindow extends javax.swing.JFrame {
 
@@ -11,6 +13,8 @@ public class ReportWindow extends javax.swing.JFrame {
     private JLabel claimsLabel;
     private JLabel collectedLabel;
     private JLabel notCollectedLabel;
+
+    private final UIFactory uiFactory = new LightUIFactory();
 
     public ReportWindow() {
         setTitle("Generate Reports");
@@ -26,17 +30,17 @@ public class ReportWindow extends javax.swing.JFrame {
         JPanel mainPanel = new JPanel(new GridLayout(5, 1, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        foundLabel = new JLabel("Found Items: -");
-        claimsLabel = new JLabel("Total Claims: -");
-        collectedLabel = new JLabel("Items Collected: -");
-        notCollectedLabel = new JLabel("Items Not Collected: -");
+        foundLabel = uiFactory.createLabel("Found Items: -");
+        claimsLabel = uiFactory.createLabel("Total Claims: -");
+        collectedLabel = uiFactory.createLabel("Items Collected: -");
+        notCollectedLabel = uiFactory.createLabel("Items Not Collected: -");
 
         foundLabel.setFont(new Font("Arial", Font.BOLD, 14));
         claimsLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         collectedLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         notCollectedLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
-        JButton refreshButton = new JButton("Refresh Statistics");
+        JButton refreshButton = uiFactory.createButton("Refresh Statistics");
         refreshButton.addActionListener(e -> refreshStats());
 
         mainPanel.add(foundLabel);

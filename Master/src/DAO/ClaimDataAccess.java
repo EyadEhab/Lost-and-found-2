@@ -49,7 +49,7 @@ public class ClaimDataAccess {
         // If StudentID/ItemID are NOT NULL in DB, this will fail at runtime.
         // But I cannot add getters to Entity as per User instructions.
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DBConnection.getInstance().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, claim.getStatus());

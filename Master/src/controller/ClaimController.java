@@ -1,5 +1,8 @@
 package controller;
 
+import factory.dao.DataAccessFactory;
+import factory.dao.SqlDataAccessFactory;
+
 /**
  * 
  */
@@ -33,7 +36,8 @@ public class ClaimController {
 
         // Save to database via DAO
         try {
-            DAO.ClaimDataAccess dao = new DAO.ClaimDataAccess();
+            DataAccessFactory factory = new SqlDataAccessFactory();
+            DAO.ClaimDataAccess dao = factory.createClaimDAO();
             dao.insertClaim(newClaim);
             // TODO: Associate the claim with the item and student
             // This might require additional entity relationships or database schema changes

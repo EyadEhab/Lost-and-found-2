@@ -26,7 +26,7 @@ public class ItemDataAccess {
     public Item findItemByID(int id) {
         String sql = "SELECT ItemID, Title, Description, Category, Location, Photo, DateUploaded, Status FROM FOUND_ITEM WHERE ItemID = ?";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DBConnection.getInstance().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
@@ -59,7 +59,7 @@ public class ItemDataAccess {
     public void removeItem(int id) {
         String sql = "DELETE FROM FOUND_ITEM WHERE ItemID = ?";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DBConnection.getInstance().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
@@ -84,7 +84,7 @@ public class ItemDataAccess {
         List<Item> items = new ArrayList<>();
         String sql = "SELECT ItemID, Title, Description, Category, Location, Photo, DateUploaded, Status FROM FOUND_ITEM ORDER BY ItemID DESC";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DBConnection.getInstance().getConnection();
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -121,7 +121,7 @@ public class ItemDataAccess {
         // The database column for officer/uploader is 'UploadedByUserID'.
         String sql = "INSERT INTO FOUND_ITEM (Title, Description, Category, Color, Location, Photo, Status, DateUploaded, UploadedByUserID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DBConnection.getInstance().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, item.getTitle());
@@ -158,7 +158,7 @@ public class ItemDataAccess {
     public void updateItemRecord(Item item) {
         String sql = "UPDATE FOUND_ITEM SET Title=?, Description=?, Category=?, Color=?, Location=?, Photo=?, Status=? WHERE ItemID=?";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DBConnection.getInstance().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, item.getTitle());
@@ -210,7 +210,7 @@ public class ItemDataAccess {
         // Add status filter for available items
         sql += " AND Status IN ('Found', 'Processing Claim')";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DBConnection.getInstance().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             int paramIndex = 1;
@@ -274,7 +274,7 @@ public class ItemDataAccess {
                 "SET IDENTITY_INSERT [User] OFF;";
         String insertOfficer = "INSERT INTO OFFICER (UserID, SecurityBadgeNumber) VALUES (?, 'BADGE-001')";
 
-        try (Connection conn = DBConnection.getConnection()) {
+        try (Connection conn = DBConnection.getInstance().getConnection()) {
             boolean exists = false;
             // Check if officer exists
             try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {

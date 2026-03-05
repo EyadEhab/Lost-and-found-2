@@ -5,8 +5,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import dataaccess.DBConnection;
+import core.SessionManager;
+import factory.DashboardCreator;
+import factory.AdminDashboardCreator;
+import factory.OfficerDashboardCreator;
+import factory.StudentDashboardCreator;
+import factory.ui.UIFactory;
+import factory.ui.LightUIFactory;
 
 public class LoginWindow extends JFrame {
+
+    private final UIFactory uiFactory = new LightUIFactory();
 
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -26,15 +35,15 @@ public class LoginWindow extends JFrame {
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        panel.add(new JLabel("Username:"));
-        usernameField = new JTextField();
+        panel.add(uiFactory.createLabel("Username:"));
+        usernameField = uiFactory.createTextField(15);
         panel.add(usernameField);
 
-        panel.add(new JLabel("Password:"));
+        panel.add(uiFactory.createLabel("Password:"));
         passwordField = new JPasswordField();
         panel.add(passwordField);
 
-        loginButton = new JButton("Login");
+        loginButton = uiFactory.createButton("Login");
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,6 +71,9 @@ public class LoginWindow extends JFrame {
         String role = DBConnection.authenticateUser(username, password);
 
         if (role != null) {
+            int userId = fetchUserIdByUsername(username);
+            SessionManager.getInstance().setSession(userId, username, role);
+
             JOptionPane.showMessageDialog(this, "Login Successful! Role: " + role);
             dispose(); // Close login window
             openWindowForRole(role);
@@ -71,18 +83,44 @@ public class LoginWindow extends JFrame {
         }
     }
 
+    /**
+     * Best-effort lookup of the authenticated user's ID based on username.
+     * Falls back to 0 if no matching user is found.
+     */
+    private int fetchUserIdByUsername(String username) {
+        java.util.List<Object[]> users = DBConnection.getAllUsersWithRoles();
+        if (users != null) {
+            for (Object[] row : users) {
+                if (row != null && row.length >= 2) {
+                    int id = (Integer) row[0];
+                    String name = (String) row[1];
+                    if (name != null && name.equals(username)) {
+                        return id;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
     private void openWindowForRole(String role) {
         // Normalize role string (trim and lowercase) for comparison
         role = role.trim();
 
-        if (role.equalsIgnoreCase("Student")) {
-            new SearchWindow().setVisible(true);
+        DashboardCreator creator;
+
+        if (role.equalsIgnoreCase("Admin")) {
+            creator = new AdminDashboardCreator();
         } else if (role.equalsIgnoreCase("Officer")) {
-            new OfficerDashboard().setVisible(true);
-        } else if (role.equalsIgnoreCase("Admin")) {
-            new AdminDashboard().setVisible(true);
+            creator = new OfficerDashboardCreator();
+        } else if (role.equalsIgnoreCase("Student")) {
+            creator = new StudentDashboardCreator();
         } else {
             JOptionPane.showMessageDialog(null, "Unknown role: " + role, "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
+        JFrame dashboard = creator.createDashboard();
+        dashboard.setVisible(true);
     }
 }

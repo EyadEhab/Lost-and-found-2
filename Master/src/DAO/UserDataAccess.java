@@ -40,7 +40,7 @@ public class UserDataAccess {
         String sql = "UPDATE [USER] SET Role = ? WHERE UserID = ?";
         // Note: [USER] is escaped because USER is a reserved keyword in SQL Server
 
-        try (java.sql.Connection conn = dataaccess.DBConnection.getConnection();
+        try (java.sql.Connection conn = dataaccess.DBConnection.getInstance().getConnection();
                 java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             // Mapping ID to Role string as ERD shows 'Role' is a string/varchar

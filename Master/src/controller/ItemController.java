@@ -1,5 +1,8 @@
 package controller;
 
+import factory.dao.DataAccessFactory;
+import factory.dao.SqlDataAccessFactory;
+
 /**
  *
  */
@@ -88,7 +91,8 @@ public class ItemController {
 
         // Save to database via DAO
         try {
-            DAO.ItemDataAccess dao = new DAO.ItemDataAccess();
+            DataAccessFactory factory = new SqlDataAccessFactory();
+            DAO.ItemDataAccess dao = factory.createItemDAO();
             int newItemId = dao.saveItem(newItem);
 
             if (newItemId > 0) {

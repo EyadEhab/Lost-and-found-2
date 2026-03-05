@@ -31,44 +31,92 @@ public class DBConnection {
         }
     }
 
-    // Connection instance (Singleton pattern)
-    private static Connection connection = null;
+    // Singleton instance of DBConnection
+    private static DBConnection instance;
+
+    // Underlying JDBC connection managed by this Singleton
+    private Connection connection;
 
     /**
-     * Get database connection (creates new connection if none exists)
-     * 
-     * @return Database connection
-     * @throws SQLException if connection fails
+     * Private constructor to prevent direct instantiation.
+     * Initializes the JDBC connection using DriverManager.
      */
-    public static Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
+    private DBConnection() {
+        try {
+            initConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to initialize database connection", e);
+        }
+    }
+
+    /**
+     * Lazily initialize or reinitialize the Connection if needed.
+     */
+    private void initConnection() throws SQLException {
+        try {
+            // Load SQL Server JDBC driver
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            // Create connection
+            System.out.println("Connecting to: " + URL);
+            this.connection = DriverManager.getConnection(URL, USER, PASS);
+            System.out.println("Database connection established successfully");
+
+        } catch (ClassNotFoundException e) {
+            throw new SQLException("SQL Server JDBC Driver not found", e);
+        } catch (SQLException e) {
+            System.err.println("Failed to connect to database: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * Get the Singleton instance of DBConnection.
+     * 
+     * @return DBConnection singleton instance
+     */
+    public static synchronized DBConnection getInstance() {
+        if (instance == null) {
+            instance = new DBConnection();
+        } else {
             try {
-                // Load SQL Server JDBC driver
-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-                // Create connection
-                System.out.println("Connecting to: " + URL);
-                connection = DriverManager.getConnection(URL, USER, PASS);
-                System.out.println("Database connection established successfully");
-
-            } catch (ClassNotFoundException e) {
-                throw new SQLException("SQL Server JDBC Driver not found", e);
+                if (instance.connection == null || instance.connection.isClosed()) {
+                    instance.initConnection();
+                }
             } catch (SQLException e) {
-                System.err.println("Failed to connect to database: " + e.getMessage());
-                throw e;
+                throw new RuntimeException("Failed to reinitialize database connection", e);
             }
         }
-        return connection;
+        return instance;
     }
+
+    /**
+     * Get the underlying JDBC Connection managed by this Singleton.
+     * 
+     * @return Database connection
+     */
+    public Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                initConnection();
+            }
+            return connection;
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to get database connection", e);
+        }
+    }
+
+    // Removed legacy static getConnection() to enforce Singleton usage via
+    // DBConnection.getInstance().getConnection().
 
     /**
      * Close the database connection
      */
     public static void closeConnection() {
-        if (connection != null) {
+        if (instance != null && instance.connection != null) {
             try {
-                connection.close();
-                connection = null;
+                instance.connection.close();
+                instance.connection = null;
                 System.out.println("Database connection closed");
             } catch (SQLException e) {
                 System.err.println("Error closing database connection: " + e.getMessage());
@@ -92,7 +140,7 @@ public class DBConnection {
         // SQL Server USER is a reserved keyword, so use [User] or alias
         String authQuery = "SELECT UserID FROM [User] WHERE Name = ? AND PasswordHash = ?";
 
-        try (Connection conn = getConnection();
+        try (Connection conn = getInstance().getConnection();
                 java.sql.PreparedStatement pstmt = conn.prepareStatement(authQuery)) {
 
             pstmt.setString(1, username);
@@ -167,7 +215,7 @@ public class DBConnection {
         stats.put("Collected", 0);
         stats.put("Not Collected", 0);
 
-        try (Connection conn = getConnection()) {
+        try (Connection conn = getInstance().getConnection()) {
             // Count Found Items
             try (java.sql.Statement stmt = conn.createStatement();
                     java.sql.ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM FOUND_ITEM")) {
@@ -214,7 +262,7 @@ public class DBConnection {
         java.util.List<Object[]> users = new java.util.ArrayList<>();
         String query = "SELECT UserID, Name, Email FROM [User]";
 
-        try (Connection conn = getConnection();
+        try (Connection conn = getInstance().getConnection();
                 java.sql.Statement stmt = conn.createStatement();
                 java.sql.ResultSet rs = stmt.executeQuery(query)) {
 
@@ -239,7 +287,7 @@ public class DBConnection {
      */
     public static Object[] searchUserById(int searchId) {
         String query = "SELECT UserID, Name, Email FROM [User] WHERE UserID = ?";
-        try (Connection conn = getConnection();
+        try (Connection conn = getInstance().getConnection();
                 java.sql.PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setInt(1, searchId);
@@ -264,7 +312,7 @@ public class DBConnection {
      * @return true if successful
      */
     public static boolean updateUserRole(int userId, String newRole) {
-        try (Connection conn = getConnection()) {
+        try (Connection conn = getInstance().getConnection()) {
             conn.setAutoCommit(false); // Transaction
             try {
                 // remove from all role tables first
@@ -328,7 +376,7 @@ public class DBConnection {
     public static boolean addUser(int id, String name, String email, String password, String role) {
         // UserID is an IDENTITY column. We omit it from the insert.
         String insertUser = "INSERT INTO [User] (Name, Email, PasswordHash, Role) VALUES (?, ?, ?, ?)";
-        try (Connection conn = getConnection()) {
+        try (Connection conn = getInstance().getConnection()) {
             conn.setAutoCommit(false);
             try (java.sql.PreparedStatement pstmt = conn.prepareStatement(insertUser,
                     java.sql.Statement.RETURN_GENERATED_KEYS)) {
@@ -368,7 +416,7 @@ public class DBConnection {
      * Delete a user by ID
      */
     public static boolean deleteUser(int userId) {
-        try (Connection conn = getConnection()) {
+        try (Connection conn = getInstance().getConnection()) {
             conn.setAutoCommit(false);
             try {
                 // Remove from all potential role tables to be safe

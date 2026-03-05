@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import core.SessionManager;
 
 public class AdminDashboard extends JFrame {
 
@@ -46,6 +47,14 @@ public class AdminDashboard extends JFrame {
         panel.add(manageRolesButton);
         panel.add(reportsButton);
 
-        add(panel);
+        String username = SessionManager.getInstance().getUsername();
+        if (username == null || username.isEmpty()) {
+            username = "User";
+        }
+        JLabel welcomeLabel = new JLabel("Welcome, " + username);
+        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        add(welcomeLabel, BorderLayout.NORTH);
+        add(panel, BorderLayout.CENTER);
     }
 }

@@ -2,7 +2,8 @@ package controller;
 
 import java.util.*;
 import entity.Item;
-import DAO.ReportDataAccess;
+import factory.dao.DataAccessFactory;
+import factory.dao.SqlDataAccessFactory;
 
 /**
  * 
@@ -20,7 +21,8 @@ public class ReportController {
      * @return
      */
     public List<Item> createWeeklyReport(Object dateRange) {
-        ReportDataAccess dao = new ReportDataAccess();
+        DataAccessFactory factory = new SqlDataAccessFactory();
+        DAO.ReportDataAccess dao = factory.createReportDAO();
         // TODO: Extract actual dates from dateRange object
         return dao.fetchItemsByDate(new Date(), new Date());
     }

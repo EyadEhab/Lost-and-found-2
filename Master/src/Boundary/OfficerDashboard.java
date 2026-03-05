@@ -2,6 +2,7 @@ package Boundary;
 
 import javax.swing.*;
 import java.awt.*;
+import core.SessionManager;
 
 public class OfficerDashboard extends JFrame {
 
@@ -40,6 +41,14 @@ public class OfficerDashboard extends JFrame {
         panel.add(editButton);
         panel.add(deleteButton);
 
-        add(panel);
+        String username = SessionManager.getInstance().getUsername();
+        if (username == null || username.isEmpty()) {
+            username = "Officer";
+        }
+        JLabel welcomeLabel = new JLabel("Welcome, " + username);
+        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        add(welcomeLabel, BorderLayout.NORTH);
+        add(panel, BorderLayout.CENTER);
     }
 }
