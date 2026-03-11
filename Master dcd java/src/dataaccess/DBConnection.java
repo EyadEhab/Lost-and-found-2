@@ -8,8 +8,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * Database connection utility for MS SQL Server
- * Handles JDBC connections to the Lost and Found database
+ * Database connection utility for MS SQL Server.
+ * <p>
+ * This class is implemented as a Singleton (`DBConnection.getInstance()`) that
+ * owns a single underlying JDBC {@link Connection}. Most operations are
+ * exposed as static helper methods that internally obtain the shared
+ * connection via the Singleton instance so existing business logic can call
+ * them without managing connections directly.
  */
 public class DBConnection {
 

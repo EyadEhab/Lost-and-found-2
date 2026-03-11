@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.Map;
 import dataaccess.DBConnection;
 import factory.ui.UIFactory;
-import factory.ui.LightUIFactory;
+import core.ThemeManager;
 
 public class ReportWindow extends javax.swing.JFrame {
 
@@ -14,7 +14,8 @@ public class ReportWindow extends javax.swing.JFrame {
     private JLabel collectedLabel;
     private JLabel notCollectedLabel;
 
-    private final UIFactory uiFactory = new LightUIFactory();
+    // Use current theme so this window participates in application theming
+    private final UIFactory uiFactory = ThemeManager.getInstance().getFactory();
 
     public ReportWindow() {
         setTitle("Generate Reports");
@@ -29,6 +30,7 @@ public class ReportWindow extends javax.swing.JFrame {
     private void initComponents() {
         JPanel mainPanel = new JPanel(new GridLayout(5, 1, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.setBackground(uiFactory.getBackgroundColor());
 
         foundLabel = uiFactory.createLabel("Found Items: -");
         claimsLabel = uiFactory.createLabel("Total Claims: -");
@@ -49,6 +51,7 @@ public class ReportWindow extends javax.swing.JFrame {
         mainPanel.add(notCollectedLabel);
         mainPanel.add(refreshButton);
 
+        getContentPane().setBackground(uiFactory.getBackgroundColor());
         add(mainPanel);
     }
 

@@ -60,7 +60,7 @@ public class LoginWindow extends JFrame {
             }
         });
 
-        JButton toggleButton = new JButton("Toggle Theme");
+        JButton toggleButton = factory.createButton("Toggle Theme");
         toggleButton.addActionListener(e -> {
             ThemeManager.getInstance().toggleTheme();
             dispose();

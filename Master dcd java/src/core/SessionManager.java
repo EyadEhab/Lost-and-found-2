@@ -11,7 +11,7 @@ public class SessionManager {
     private SessionManager() {
     }
 
-    public static SessionManager getInstance() {
+    public static synchronized SessionManager getInstance() {
         if (instance == null) {
             instance = new SessionManager();
         }

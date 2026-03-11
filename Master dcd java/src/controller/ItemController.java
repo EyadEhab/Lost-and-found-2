@@ -9,9 +9,23 @@ import factory.dao.SqlDataAccessFactory;
 public class ItemController {
 
     /**
-     * Default constructor
+     * Factory used to obtain DAOs for this controller.
+     * Allows swapping in a different DataAccessFactory (e.g., a mock) if needed.
+     */
+    private final DataAccessFactory dataFactory;
+
+    /**
+     * Default constructor uses the concrete SQL factory.
      */
     public ItemController() {
+        this(new SqlDataAccessFactory());
+    }
+
+    /**
+     * Overloaded constructor to allow injecting a custom DataAccessFactory.
+     */
+    public ItemController(DataAccessFactory dataFactory) {
+        this.dataFactory = dataFactory;
     }
 
     /**
@@ -89,10 +103,9 @@ public class ItemController {
         newItem.setOfficerID(1); // TODO: Get from current logged-in officer
         newItem.setOfficerName("Admin Officer"); // TODO: Get from current logged-in officer
 
-        // Save to database via DAO
+        // Save to database via DAO obtained from the configured factory
         try {
-            DataAccessFactory factory = new SqlDataAccessFactory();
-            DAO.ItemDataAccess dao = factory.createItemDAO();
+            DAO.ItemDataAccess dao = dataFactory.createItemDAO();
             int newItemId = dao.saveItem(newItem);
 
             if (newItemId > 0) {

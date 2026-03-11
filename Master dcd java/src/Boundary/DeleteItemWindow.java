@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import DAO.ItemDataAccess;
 import entity.Item;
+import factory.dao.DataAccessFactory;
+import factory.dao.SqlDataAccessFactory;
 
 /**
  * Delete Item Window for removing items from the database
@@ -24,7 +26,8 @@ public class DeleteItemWindow extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        itemDAO = new ItemDataAccess();
+        DataAccessFactory dataFactory = new SqlDataAccessFactory();
+        itemDAO = dataFactory.createItemDAO();
 
         initComponents();
         refreshItemTable();
