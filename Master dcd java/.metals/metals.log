@@ -1,0 +1,68 @@
+2026.03.09 22:47:18 INFO  Started: Metals version 1.6.6 in folders 'D:\2026\software & design\Lost-and-found-2\Master dcd java' for client Cursor 1.105.1.
+2026.03.09 22:47:18 INFO  Memory monitor started
+2026.03.09 22:47:19 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026.03.09 22:47:20 WARN  no build tool detected in workspace 'D:\2026\software & design\Lost-and-found-2\Master dcd java'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2026.03.09 22:47:20 WARN  Build server is not auto-connectable.
+2026.03.09 22:47:20 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java
+2026.03.09 22:47:21 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/master/dcd/MasterDcd.java. Output:
+
+2026.03.09 22:47:21 INFO  time: code lens generation in 1.61s
+2026.03.09 22:47:26 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.09 22:47:26 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.09 22:48:04 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.09 22:48:17 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java
+2026.03.09 22:48:17 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/master/dcd/MasterDcd.java. Output:
+
+2026.03.09 22:48:19 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.09 22:48:36 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.09 22:48:51 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java
+2026.03.09 22:48:52 INFO  Shutting down server
+2026.03.09 22:48:52 INFO  Memory monitor stopped
+2026.03.09 22:48:52 INFO  shutting down Metals
+2026.03.09 22:48:52 INFO  Exiting server
+2026.03.11 14:29:30 INFO  Started: Metals version 1.6.6 in folders 'D:\2026\software & design\Lost-and-found-2\Master dcd java' for client Cursor 1.105.1.
+2026.03.11 14:29:30 INFO  Memory monitor started
+2026.03.11 14:29:32 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026.03.11 14:29:32 WARN  no build tool detected in workspace 'D:\2026\software & design\Lost-and-found-2\Master dcd java'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2026.03.11 14:29:32 WARN  Build server is not auto-connectable.
+2026.03.11 14:29:33 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java
+2026.03.11 14:29:35 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/master/dcd/MasterDcd.java. Output:
+
+2026.03.11 14:29:35 INFO  time: code lens generation in 2.91s
+2026.03.11 14:33:36 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java
+2026.03.11 14:33:43 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\SearchWindow.java
+2026.03.11 14:33:44 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/Boundary/SearchWindow.java. Output:
+
+2026.03.11 14:33:47 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\SearchWindow.java. Using fallback presentation compiler.
+2026.03.11 14:33:47 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java
+2026.03.11 14:33:47 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/dataaccess/DBConnection.java. Output:
+
+2026.03.11 14:35:17 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java
+2026.03.11 14:35:20 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/Boundary/LoginWindow.java. Output:
+
+2026.03.11 14:35:32 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java
+2026.03.11 14:35:34 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/Boundary/ReportWindow.java. Output:
+
+2026.03.11 14:35:40 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\EditItemWindow.java
+2026.03.11 14:35:42 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/Boundary/EditItemWindow.java. Output:
+
+2026.03.11 14:35:44 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\DeleteItemWindow.java
+2026.03.11 14:35:44 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/Boundary/DeleteItemWindow.java. Output:
+
+2026.03.11 14:35:50 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\ItemController.java
+2026.03.11 14:35:50 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/controller/ItemController.java. Output:
+
+2026.03.11 14:35:55 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\ReportController.java
+2026.03.11 14:35:55 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/controller/ReportController.java. Output:
+
+2026.03.11 14:36:05 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\dao\MockDataAccessFactory.java
+2026.03.11 14:36:05 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/factory/dao/MockDataAccessFactory.java. Output:
+
+2026.03.11 14:36:12 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\core\SessionManager.java
+2026.03.11 14:36:12 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/core/SessionManager.java. Output:
+
+2026.03.11 14:36:16 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:36:17 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/dataaccess/DBConnection.java. Output:
+
+2026.03.11 14:38:23 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:38:25 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.

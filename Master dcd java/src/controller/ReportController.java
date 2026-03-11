@@ -11,9 +11,23 @@ import factory.dao.SqlDataAccessFactory;
 public class ReportController {
 
     /**
-     * Default constructor
+     * Factory used to obtain DAOs for this controller.
+     * Allows swapping in a different DataAccessFactory (e.g., a mock) if needed.
+     */
+    private final DataAccessFactory dataFactory;
+
+    /**
+     * Default constructor uses the concrete SQL factory.
      */
     public ReportController() {
+        this(new SqlDataAccessFactory());
+    }
+
+    /**
+     * Overloaded constructor to allow injecting a custom DataAccessFactory.
+     */
+    public ReportController(DataAccessFactory dataFactory) {
+        this.dataFactory = dataFactory;
     }
 
     /**
@@ -21,8 +35,7 @@ public class ReportController {
      * @return
      */
     public List<Item> createWeeklyReport(Object dateRange) {
-        DataAccessFactory factory = new SqlDataAccessFactory();
-        DAO.ReportDataAccess dao = factory.createReportDAO();
+        DAO.ReportDataAccess dao = dataFactory.createReportDAO();
         // TODO: Extract actual dates from dateRange object
         return dao.fetchItemsByDate(new Date(), new Date());
     }

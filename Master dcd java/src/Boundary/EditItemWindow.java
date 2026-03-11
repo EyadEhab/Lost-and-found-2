@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 import DAO.ItemDataAccess;
 import entity.Item;
+import factory.dao.DataAccessFactory;
+import factory.dao.SqlDataAccessFactory;
 
 /**
  * Edit Item Window for modifying existing found items
@@ -48,7 +50,8 @@ public class EditItemWindow extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        itemDAO = new ItemDataAccess();
+        DataAccessFactory dataFactory = new SqlDataAccessFactory();
+        itemDAO = dataFactory.createItemDAO();
         selectedPhotoPath = "";
 
         initComponents();
