@@ -46,7 +46,7 @@ The application requires a `db.properties` file to connect to your database.
 3.  Update the credentials with your SQL Server details:
     *   **Option 1: SQL Server Authentication** (Recommended)
         ```properties
-        db.url=jdbc:sqlserver://localhost:3306;databaseName=LostAndFoundDB;encrypt=false;
+        db.url=jdbc:sqlserver://localhost:1433;databaseName=LostAndFoundDB;encrypt=false;
         db.user=your_username
         db.pass=your_password
         ```
@@ -56,8 +56,28 @@ The application requires a `db.properties` file to connect to your database.
         2.  Copy this `.dll` file directly into your **IDE's project root** or Java's `bin` folder (alternatively, ensure it's in your system `PATH`).
         3.  Set your `db.properties` as follows (User and Pass are ignored):
             ```properties
-            db.url=jdbc:sqlserver://localhost:3306;databaseName=LostAndFoundDB;integratedSecurity=true;encrypt=false;
+            db.url=jdbc:sqlserver://localhost:1433;databaseName=LostAndFoundDB;integratedSecurity=true;encrypt=false;
             ```
+
+### 🕒 How to Find the Correct Port (IMPORTANT)
+If the connection is rejected, your SQL Server might be running on a different port. 
+
+- **Check via SQL Query (Easiest)**:
+  Open **SQL Server Management Studio (SSMS)**, connect to your database, and run:
+  ```sql
+  SELECT local_tcp_port FROM sys.dm_exec_connections WHERE session_id = @@SPID;
+  ```
+  The result is the port you should use in `db.url`.
+
+- **Check via Configuration Manager**:
+  1. Search your PC for "SQL Server Configuration Manager".
+  2. Go to **SQL Server Network Configuration** -> **Protocols for [YourInstanceName]**.
+  3. Double-click **TCP/IP**.
+  4. In the **IP Addresses** tab, scroll all the way to the bottom to find **IPAll**.
+  5. Check **TCP Port**:
+     - If it has a number (e.g., `1433`), use that.
+     - **If it is EMPTY**, look at **TCP Dynamic Ports**. If there is a number there (e.g., `51234`), use that number in your `db.url`!
+     - *Note: If both are empty or 0, it means TCP/IP is likely disabled. Enable it and restart the SQL Server service.*
 
 ---
 

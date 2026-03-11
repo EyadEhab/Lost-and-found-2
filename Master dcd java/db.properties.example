@@ -1,10 +1,10 @@
 # Database Connection Template
 # Rename this file to db.properties and fill in your details
 # --- Option 1: SQL Server Auth ---
-db.url=jdbc:sqlserver://localhost:3306;databaseName=LostAndFoundDB;encrypt=false;
+db.url=jdbc:sqlserver://localhost:1433;databaseName=LostAndFoundDB;encrypt=false;
 db.user=sa
 db.pass=eyad@123
 
 # --- Option 2: Windows Auth (Integrated Security) ---
 # For this to work, you MUST have mssql-jdbc_auth-13.2.1.x64.dll in your PATH or project root
-# db.url=jdbc:sqlserver://localhost:3306;databaseName=LostAndFoundDB;integratedSecurity=true;encrypt=false;
+# db.url=jdbc:sqlserver://localhost:1433;databaseName=LostAndFoundDB;integratedSecurity=true;encrypt=false;
