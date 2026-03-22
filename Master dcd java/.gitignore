@@ -1,5 +1,6 @@
 # Ignore database credentials
 db.properties
+sources.txt
 
 # Build artifacts
 bin/
