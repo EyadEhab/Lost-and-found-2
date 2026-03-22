@@ -11,6 +11,9 @@ import report.PdfReportFormatter;
 import report.ScreenReportFormatter;
 import factory.ui.UIFactory;
 import core.ThemeManager;
+import adapter.report.ItemReportAdapter;
+
+import entity.Item;
 
 public class ReportWindow extends javax.swing.JFrame {
 
@@ -36,7 +39,7 @@ public class ReportWindow extends javax.swing.JFrame {
     }
 
     private void initComponents() {
-        JPanel mainPanel = new JPanel(new GridLayout(7, 1, 10, 10));
+        JPanel mainPanel = new JPanel(new GridLayout(8, 1, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         mainPanel.setBackground(uiFactory.getBackgroundColor());
 
@@ -59,6 +62,9 @@ public class ReportWindow extends javax.swing.JFrame {
         JButton demoReportButton = uiFactory.createButton("Demo: Report Bridge");
         demoReportButton.addActionListener(e -> showReportBridgeDemo());
 
+        JButton exportCsvButton = uiFactory.createButton("Export All Items (CSV)");
+        exportCsvButton.addActionListener(e -> exportAllItemsToCsv());
+
         mainPanel.add(foundLabel);
         mainPanel.add(claimsLabel);
         mainPanel.add(collectedLabel);
@@ -66,6 +72,7 @@ public class ReportWindow extends javax.swing.JFrame {
         mainPanel.add(refreshButton);
         mainPanel.add(demoNotifButton);
         mainPanel.add(demoReportButton);
+        mainPanel.add(exportCsvButton);
 
         getContentPane().setBackground(uiFactory.getBackgroundColor());
         add(mainPanel);
@@ -92,5 +99,25 @@ public class ReportWindow extends javax.swing.JFrame {
         area.setColumns(48);
         JScrollPane scroll = new JScrollPane(area);
         JOptionPane.showMessageDialog(this, scroll, "Report Bridge demo", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void exportAllItemsToCsv() {
+        // Fetch all items from DB
+        DAO.ItemDataAccess ida = new DAO.ItemDataAccess();
+        java.util.List<Item> allItems = ida.getAllItems();
+        
+        // Use the report adapter to generate CSV
+        ItemReportAdapter adapter = new ItemReportAdapter(allItems);
+        
+        // Save to project root folder as requested: "report adapter.csv"
+        String rootDir = System.getProperty("user.dir");
+        String filePath = rootDir + java.io.File.separator + "report adapter.csv";
+        
+        adapter.exportToCsv(filePath);
+        
+        JOptionPane.showMessageDialog(this, 
+            "Successfully exported items to:\n" + filePath, 
+            "Export Successful", 
+            JOptionPane.INFORMATION_MESSAGE);
     }
 }
