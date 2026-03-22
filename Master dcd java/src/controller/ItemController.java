@@ -2,6 +2,8 @@ package controller;
 
 import factory.dao.DataAccessFactory;
 import factory.dao.SqlDataAccessFactory;
+import bridge.notification.*;
+import core.SessionManager;
 
 /**
  *
@@ -97,8 +99,8 @@ public class ItemController {
         newItem.setLocation(location != null ? location.trim() : "");
         newItem.setPhotoPath(photoPath);
         newItem.setDateFound(dateFound != null ? dateFound : new java.util.Date());
-        // Must match FOUND_ITEM.Status CHECK constraint (not "Found" — use same value as report "not collected" bucket)
-        newItem.setStatus("Not Collected");
+        // Must match FOUND_ITEM.Status CHECK constraint (ensure it matches database-allowed values)
+        newItem.setStatus("Found");
 
         // Set officer information (placeholders for now)
         newItem.setOfficerID(1); // TODO: Get from current logged-in officer
@@ -110,6 +112,12 @@ public class ItemController {
             int newItemId = dao.saveItem(newItem);
 
             if (newItemId > 0) {
+                // Trigger Notification (Bridge Pattern)
+                NotificationSender sender = new InAppSender(); // Default to In-App
+                Notification notification = new ItemStatusNotification(sender);
+                notification.notify(SessionManager.getInstance().getUserId(), 
+                    "Successfully uploaded new item: " + title);
+
                 return newItemId; // Success
             } else {
                 System.err.println("Failed to save item to database: Invalid response from DAO");

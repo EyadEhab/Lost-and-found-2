@@ -45,32 +45,57 @@ public class ClaimDataAccess {
         // caused error if method missing.
         // I must allow compilation.
 
-        String sql = "INSERT INTO CLAIM (Status, DateInitiated) VALUES (?, ?)";
-        // If StudentID/ItemID are NOT NULL in DB, this will fail at runtime.
-        // But I cannot add getters to Entity as per User instructions.
+        String sql = "INSERT INTO CLAIM (Status, DateInitiated, ClaimedByUserID, ItemID) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getInstance().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, claim.getStatus());
             stmt.setDate(2, new java.sql.Date(claim.getRequestDate().getTime()));
+            stmt.setInt(3, claim.getStudentID());
+            stmt.setInt(4, claim.getItemID());
 
-            // Cannot set StudentID/ItemID as getters don't exist in User's Entity
-            // stmt.setInt(3, ...);
-            // stmt.setInt(4, ...);
 
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("Claim inserted successfully");
+                System.out.println("Claim inserted successfully for student " + claim.getStudentID());
             } else {
                 throw new SQLException("No rows affected - claim insertion failed");
             }
 
         } catch (SQLException e) {
             System.err.println("Error inserting claim to database: " + e.getMessage());
-            // Don't throw runtime exception to allow graceful handling
+            throw new RuntimeException("Database error: " + e.getMessage());
         }
+    }
+
+    /**
+     * Get all claims from the database
+     * 
+     * @return List of all claims
+     */
+    public java.util.List<Claim> getAllClaims() {
+        java.util.List<Claim> claims = new java.util.ArrayList<>();
+        String sql = "SELECT ClaimID, Status, DateInitiated, ClaimedByUserID, ItemID FROM CLAIM ORDER BY DateInitiated DESC";
+
+        try (Connection conn = DBConnection.getInstance().getConnection();
+                java.sql.Statement stmt = conn.createStatement();
+                java.sql.ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Claim claim = new Claim();
+                claim.setClaimID(rs.getInt("ClaimID"));
+                claim.setStatus(rs.getString("Status"));
+                claim.setRequestDate(rs.getDate("DateInitiated"));
+                claim.setStudentID(rs.getInt("ClaimedByUserID"));
+                claim.setItemID(rs.getInt("ItemID"));
+                claims.add(claim);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching all claims: " + e.getMessage());
+        }
+        return claims;
     }
 
     /**

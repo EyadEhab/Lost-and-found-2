@@ -29,18 +29,16 @@ public class ClaimController {
         newClaim.setClaimID(0); // Will be set by database auto-increment
         newClaim.setStatus("Pending");
         newClaim.setRequestDate(new java.util.Date());
-
-        // Note: The Claim entity doesn't have itemID or studentID fields
-        // We may need to extend the Claim entity or store this information elsewhere
-        // For now, we'll proceed with the basic claim creation
+        newClaim.setStudentID(studentID);
+        newClaim.setItemID(itemID);
 
         // Save to database via DAO
         try {
             DataAccessFactory factory = new SqlDataAccessFactory();
             DAO.ClaimDataAccess dao = factory.createClaimDAO();
             dao.insertClaim(newClaim);
-            // TODO: Associate the claim with the item and student
-            // This might require additional entity relationships or database schema changes
+            
+            System.out.println("Claim process initiated for Item ID: " + itemID + " by Student ID: " + studentID);
         } catch (Exception e) {
             System.err.println("Database error while creating claim: " + e.getMessage());
             e.printStackTrace();

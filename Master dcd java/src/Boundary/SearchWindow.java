@@ -31,6 +31,7 @@ public class SearchWindow extends JFrame {
     private JLabel categoryIcon;
     private JLabel resultsCountLabel;
     private JPanel searchPanel;
+    private JButton claimButton;
 
     // Controller
     private MatchingController matchingController;
@@ -103,7 +104,7 @@ public class SearchWindow extends JFrame {
         resultsCountLabel.setForeground(factory.getTextColor());
 
         // Results table with enhanced styling
-        String[] columnNames = { "Photo", "Title", "Category", "Description", "Location", "Date Found", "Status" };
+        String[] columnNames = { "ID", "Photo", "Title", "Category", "Description", "Location", "Date Found", "Status" };
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -135,9 +136,13 @@ public class SearchWindow extends JFrame {
         resultsTable.setDefaultRenderer(Object.class, new AlternatingRowRenderer());
 
         // Set column widths
-        resultsTable.getColumnModel().getColumn(0).setPreferredWidth(80); // Photo
-        resultsTable.getColumnModel().getColumn(1).setPreferredWidth(160); // Title
-        resultsTable.getColumnModel().getColumn(2).setPreferredWidth(110); // Category
+        resultsTable.getColumnModel().getColumn(0).setMinWidth(0); // ID (Hidden)
+        resultsTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setPreferredWidth(0);
+
+        resultsTable.getColumnModel().getColumn(1).setPreferredWidth(80); // Photo
+        resultsTable.getColumnModel().getColumn(2).setPreferredWidth(160); // Title
+        resultsTable.getColumnModel().getColumn(3).setPreferredWidth(110); // Category
         resultsTable.getColumnModel().getColumn(3).setPreferredWidth(220); // Description
         resultsTable.getColumnModel().getColumn(4).setPreferredWidth(120); // Location
         resultsTable.getColumnModel().getColumn(5).setPreferredWidth(100); // Date Found
@@ -170,8 +175,19 @@ public class SearchWindow extends JFrame {
             new LoginWindow().setVisible(true);
         });
 
+        JButton notificationsBtn = factory.createButton("Notifications");
+        notificationsBtn.addActionListener(e -> new NotificationWindow().setVisible(true));
+
+        toolbar.add(notificationsBtn);
         toolbar.add(toggleThemeBtn);
         toolbar.add(signOutBtn);
+
+        // Claim button for students
+        claimButton = factory.createButton("Claim Selected Item");
+        claimButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        claimButton.setBackground(new Color(40, 167, 69)); // Success green
+        claimButton.setForeground(Color.WHITE);
+        claimButton.addActionListener(e -> initiateClaim());
 
         // Search panel setup
         searchPanel = new JPanel(new GridBagLayout());
@@ -225,6 +241,11 @@ public class SearchWindow extends JFrame {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         mainPanel.setBackground(factory.getBackgroundColor());
         mainPanel.add(scrollPane, BorderLayout.CENTER);
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBackground(factory.getBackgroundColor());
+        bottomPanel.add(claimButton);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         JPanel container = new JPanel(new BorderLayout());
         container.setBackground(factory.getBackgroundColor());
@@ -316,18 +337,42 @@ public class SearchWindow extends JFrame {
             // Add status indicator for processing claims
             if ("Processing Claim".equals(status)) {
                 status = "[PENDING] Claim Pending";
-            } else if ("Available".equals(status)) {
+            } else if ("Available".equals(status) || "Found".equals(status)) {
                 status = "[AVAILABLE] Available";
-            } else if ("Claimed".equals(status)) {
+            } else if ("Claimed".equals(status) || "Collected".equals(status)) {
                 status = "[CLAIMED] Claimed";
             }
 
-            Object[] row = { photoStatus, title, category, description, location, dateFound, status };
+            Object[] row = { item.getItemID(), photoStatus, title, category, description, location, dateFound, status };
             tableModel.addRow(row);
         }
 
         // Update table
         tableModel.fireTableDataChanged();
+    }
+
+    /**
+     * Initiate the claim process for the selected item
+     */
+    private void initiateClaim() {
+        int selectedRow = resultsTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select an item from the table first.", "No Selection",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Get Item ID from the first column (hidden)
+        int itemID = (Integer) resultsTable.getValueAt(selectedRow, 0);
+        String status = (String) resultsTable.getValueAt(selectedRow, 7); // Status column
+
+        if (status.contains("Claim Pending") || status.contains("Claimed")) {
+            JOptionPane.showMessageDialog(this, "This item is already " + status + ".", "Invalid Action",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        new ClaimSubmissionWindow(itemID).setVisible(true);
     }
 
     /**

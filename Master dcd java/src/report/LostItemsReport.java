@@ -29,6 +29,8 @@ public class LostItemsReport extends Report {
         for (Item it : items) {
             sb.append("ID ").append(it.getItemID());
             sb.append(": ").append(it.getTitle() != null ? it.getTitle() : "(untitled)");
+            sb.append(" [").append(it.getCategory() != null ? it.getCategory() : "No Category").append("]");
+            sb.append(" at ").append(it.getLocation() != null ? it.getLocation() : "Unknown Location");
             sb.append(" — ").append(it.getStatus() != null ? it.getStatus() : "unknown status");
             sb.append("\n");
         }

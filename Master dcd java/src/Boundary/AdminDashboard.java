@@ -65,6 +65,10 @@ public class AdminDashboard extends JFrame {
             new LoginWindow().setVisible(true);
         });
 
+        JButton notificationsBtn = uiFactory.createButton("Notifications");
+        notificationsBtn.addActionListener(e -> new NotificationWindow().setVisible(true));
+
+        topPanel.add(notificationsBtn);
         topPanel.add(toggleThemeBtn);
         topPanel.add(signOutBtn);
 

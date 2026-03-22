@@ -28,6 +28,9 @@ public class Claim {
      */
     private Date requestDate;
 
+    private int studentID;
+    private int itemID;
+
     // Getters
     public int getClaimID() {
         return claimID;
@@ -53,5 +56,11 @@ public class Claim {
     public void setRequestDate(Date requestDate) {
         this.requestDate = requestDate;
     }
+
+    public int getStudentID() { return studentID; }
+    public void setStudentID(int studentID) { this.studentID = studentID; }
+
+    public int getItemID() { return itemID; }
+    public void setItemID(int itemID) { this.itemID = itemID; }
 
 }

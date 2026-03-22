@@ -13,6 +13,8 @@ import DAO.ItemDataAccess;
 import entity.Item;
 import factory.dao.DataAccessFactory;
 import factory.dao.SqlDataAccessFactory;
+import bridge.notification.*;
+import core.SessionManager;
 
 /**
  * Edit Item Window for modifying existing found items
@@ -40,9 +42,9 @@ public class EditItemWindow extends JFrame {
             "Electronics", "Books", "Personal Items", "Bags", "Accessories"
     };
 
-    /** Labels must satisfy FOUND_ITEM.Status CHECK in SQL Server (avoid legacy "Found" on save). */
+    /** Labels must satisfy FOUND_ITEM.Status CHECK in SQL Server. */
     private static final String[] STATUSES = {
-            "Not Collected", "Processing Claim", "Collected", "Archived"
+            "Found", "Processing Claim", "Collected", "Archived"
     };
 
     public EditItemWindow() {
@@ -292,8 +294,8 @@ public class EditItemWindow extends JFrame {
             cmbCategory.setSelectedItem(item.getCategory());
             txtLocation.setText(item.getLocation());
             String st = item.getStatus();
-            if (st == null || st.isEmpty() || "Found".equals(st)) {
-                cmbStatus.setSelectedItem("Not Collected");
+            if (st == null || st.isEmpty()) {
+                cmbStatus.setSelectedItem("Found");
             } else {
                 cmbStatus.setSelectedItem(st);
             }
@@ -350,6 +352,13 @@ public class EditItemWindow extends JFrame {
         item.setStatus(status);
 
         itemDAO.updateItemRecord(item);
+        
+        // Trigger Notification (Bridge Pattern)
+        NotificationSender emailSender = new EmailSender(); // Simulate email for item edit
+        Notification statusNotification = new ItemStatusNotification(emailSender);
+        statusNotification.notify(SessionManager.getInstance().getUserId(), 
+            "Your item '" + title + "' (ID: " + selectedItemId + ") has been updated.");
+
         JOptionPane.showMessageDialog(this, "Item updated successfully!");
         refreshItemTable();
         clearForm();

@@ -31,6 +31,8 @@ public class ClaimedItemsReport extends Report {
         StringBuilder sb = new StringBuilder();
         for (Claim c : claims) {
             sb.append("Claim #").append(c.getClaimID());
+            sb.append(" (Item #").append(c.getItemID()).append(")");
+            sb.append(" by Student #").append(c.getStudentID());
             sb.append(" — ").append(c.getStatus() != null ? c.getStatus() : "?");
             Date d = c.getRequestDate();
             sb.append(" — ").append(d != null ? df.format(d) : "no date");

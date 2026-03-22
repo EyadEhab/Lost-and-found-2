@@ -1,121 +1,106 @@
 package Boundary;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
+import core.SessionManager;
+import core.ThemeManager;
+import factory.ui.UIFactory;
+import bridge.notification.*;
 
 /**
  * GUI Window for submitting item claims
  */
-public class ClaimSubmissionWindow {
+public class ClaimSubmissionWindow extends JFrame {
 
-    // GUI Components (assuming these exist in the actual GUI)
-    // private javax.swing.JTextField txtStudentID;
-    // private javax.swing.JButton btnSubmitClaim;
-    // private javax.swing.JLabel lblSelectedItem;
-
-    /**
-     * The ID of the item being claimed (set when user selects an item)
-     */
     private int selectedItemID;
+    private JTextField txtStudentID;
+    private JLabel lblItemInfo;
 
-    /**
-     * Default constructor
-     */
-    public ClaimSubmissionWindow() {
-        this.selectedItemID = 0; // No item selected initially
-    }
-
-    /**
-     * Constructor with selected item
-     * @param selectedItemID the ID of the item to claim
-     */
     public ClaimSubmissionWindow(int selectedItemID) {
         this.selectedItemID = selectedItemID;
+        setTitle("Submit Claim");
+        setSize(400, 250);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+
+        initComponents();
     }
 
-    // Getters and Setters
-    public int getSelectedItemID() {
-        return selectedItemID;
+    private void initComponents() {
+        UIFactory factory = ThemeManager.getInstance().getFactory();
+        getContentPane().setBackground(factory.getBackgroundColor());
+        setLayout(new BorderLayout(10, 10));
+
+        JPanel mainPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        mainPanel.setBackground(factory.getBackgroundColor());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        lblItemInfo = factory.createLabel("Claiming Item ID: " + selectedItemID);
+        lblItemInfo.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblItemInfo.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        idPanel.setBackground(factory.getBackgroundColor());
+        idPanel.add(factory.createLabel("Student ID:"));
+        
+        // Default to current user's ID if available
+        int currentUserId = SessionManager.getInstance().getUserId();
+        txtStudentID = factory.createTextField(15);
+        if (currentUserId > 0) {
+            txtStudentID.setText(String.valueOf(currentUserId));
+        }
+        idPanel.add(txtStudentID);
+
+        JButton btnSubmit = factory.createButton("Submit Claim");
+        btnSubmit.addActionListener(e -> onInitiateClaim());
+
+        mainPanel.add(lblItemInfo);
+        mainPanel.add(idPanel);
+        mainPanel.add(btnSubmit);
+
+        add(mainPanel, BorderLayout.CENTER);
     }
 
-    public void setSelectedItemID(int selectedItemID) {
-        this.selectedItemID = selectedItemID;
-    }
-
-
-    /**
-     * Action listener for the Submit Claim button
-     * Captures studentID from GUI and uses selectedItemID for the claim
-     */
     public void onInitiateClaim() {
-        // Capture studentID from GUI component
-        String studentIDText = ""; // txtStudentID.getText();
+        String studentIDText = txtStudentID.getText().trim();
 
-        // TODO: Uncomment when GUI components are available
-        // String studentIDText = txtStudentID.getText();
+        if (studentIDText.isEmpty()) {
+            showErrorMessage("Please enter your Student ID.");
+            return;
+        }
 
-        // For demo purposes, use sample data
-        studentIDText = "12345";
-        selectedItemID = 1; // Assume item 1 is selected
-
-        // Parse student ID
         int studentID;
         try {
-            studentID = Integer.parseInt(studentIDText.trim());
+            studentID = Integer.parseInt(studentIDText);
         } catch (NumberFormatException e) {
-            showErrorMessage("Please enter a valid Student ID (numeric only).");
+            showErrorMessage("Student ID must be numeric.");
             return;
         }
 
-        // Validate input
-        if (selectedItemID <= 0) {
-            showErrorMessage("Please select an item to claim first.");
-            return;
-        }
-
-        if (studentID <= 0) {
-            showErrorMessage("Please enter a valid Student ID.");
-            return;
-        }
-
-        // Create controller instance
         controller.ClaimController claimController = new controller.ClaimController();
 
-        // Call controller to start the claim process
         try {
             claimController.startClaimProcess(selectedItemID, studentID);
 
-            // Success - show confirmation message and reset form
-            showSuccessMessage("Claim submitted successfully!\nItem ID: " + selectedItemID + "\nStudent ID: " + studentID + "\n\nYou will be notified of the claim status.");
+            // Trigger Notification (Bridge Pattern)
+            NotificationSender sender = new InAppSender();
+            Notification notification = new ClaimNotification(sender);
+            notification.notify(SessionManager.getInstance().getUserId(), 
+                "New claim submitted for Item #" + selectedItemID);
 
-            // TODO: Clear form and navigate to claim status
-            // txtStudentID.setText("");
-            // selectedItemID = 0;
-
-        } catch (RuntimeException e) {
-            // Controller threw an exception (database error)
-            System.err.println("Failed to submit claim: " + e.getMessage());
-            showErrorMessage("Failed to submit claim due to database error.\nPlease try again later.");
+            showSuccessMessage("Claim submitted successfully!\nOur team will review your request.");
+            dispose();
         } catch (Exception e) {
-            // Unexpected error
-            System.err.println("Unexpected error during claim submission: " + e.getMessage());
-            showErrorMessage("An unexpected error occurred.\nPlease try again.");
+            showErrorMessage("Failed to submit claim: " + e.getMessage());
         }
     }
 
-    /**
-     * Displays a success message to the user
-     * @param message the success message to display
-     */
     private void showSuccessMessage(String message) {
-        JOptionPane.showMessageDialog(null, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    /**
-     * Displays an error message to the user
-     * @param message the error message to display
-     */
     private void showErrorMessage(String message) {
-        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
-
 }

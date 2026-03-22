@@ -41,8 +41,35 @@ public class ReportController {
      */
     public List<Item> createWeeklyReport(Object dateRange) {
         DAO.ReportDataAccess dao = dataFactory.createReportDAO();
-        // TODO: Extract actual dates from dateRange object
-        return dao.fetchItemsByDate(new Date(), new Date());
+        
+        // Calculate date range for the past 7 days
+        Calendar cal = Calendar.getInstance();
+        Date end = cal.getTime();
+        cal.add(Calendar.DAY_OF_YEAR, -7);
+        Date start = cal.getTime();
+        
+        return dao.fetchItemsByDate(start, end);
+    }
+
+    /**
+     * Fetch lost/found items using ItemDAO
+     */
+    public List<Item> fetchLostItems() {
+        DAO.ItemDataAccess dao = dataFactory.createItemDAO();
+        // Combine 'Found' and 'Not Collected' if we want all available items
+        List<Item> found = dao.fetchItemsByStatus("Found");
+        List<Item> notCollected = dao.fetchItemsByStatus("Not Collected");
+        List<Item> allLost = new ArrayList<>(found);
+        allLost.addAll(notCollected);
+        return allLost;
+    }
+
+    /**
+     * Fetch all claim records using ClaimDAO
+     */
+    public List<Claim> fetchClaimedItems() {
+        DAO.ClaimDataAccess dao = dataFactory.createClaimDAO();
+        return dao.getAllClaims();
     }
 
     /**
@@ -71,7 +98,7 @@ public class ReportController {
      * Bridge-based list of items (lost/found style lines).
      */
     public String buildLostItemsReportBridge(ReportFormatter formatter, List<Item> items) {
-        List<Item> safe = items != null ? items : Collections.emptyList();
+        List<Item> safe = items != null ? items : fetchLostItems();
         return new LostItemsReport(formatter, safe).export();
     }
 
@@ -79,7 +106,7 @@ public class ReportController {
      * Bridge-based claims listing.
      */
     public String buildClaimedItemsReportBridge(ReportFormatter formatter, List<Claim> claims) {
-        List<Claim> safe = claims != null ? claims : Collections.emptyList();
+        List<Claim> safe = claims != null ? claims : fetchClaimedItems();
         return new ClaimedItemsReport(formatter, safe).export();
     }
 

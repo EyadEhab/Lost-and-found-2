@@ -5,6 +5,8 @@ import java.sql.*;
 import java.util.*;
 import entity.Item;
 import dataaccess.DBConnection;
+import bridge.notification.*;
+import core.SessionManager;
 
 /**
  * Data Access Object for Item entities
@@ -99,6 +101,12 @@ public class ItemDataAccess {
 
                     if (rowsAffected > 0) {
                         System.out.println("Item " + id + " deleted successfully.");
+                        
+                        // Trigger Notification (Bridge Pattern)
+                        NotificationSender smsSender = new SmsSender(); // Simulate SMS for deletion
+                        Notification genNotification = new GeneralNotification(smsSender);
+                        genNotification.notify(SessionManager.getInstance().getUserId(), 
+                            "System Item Removal: Item ID " + id + " has been deleted.");
                     } else {
                         System.out.println("Item " + id + " not found.");
                     }
@@ -297,6 +305,41 @@ public class ItemDataAccess {
     public List<Item> fetchOldItems(java.util.Date threshold) {
         // TODO implement here
         return null;
+    }
+
+    /**
+     * Fetch items filtered by their status
+     * 
+     * @param status the status to filter by (e.g., 'Found', 'Collected')
+     * @return list of items matching the status
+     */
+    public List<Item> fetchItemsByStatus(String status) {
+        List<Item> items = new ArrayList<>();
+        String sql = "SELECT ItemID, Title, Description, Category, Location, Photo, DateUploaded, Status FROM FOUND_ITEM WHERE Status = ? ORDER BY DateUploaded DESC";
+
+        try (Connection conn = DBConnection.getInstance().getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, status);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Item item = new Item();
+                    item.setItemID(rs.getInt("ItemID"));
+                    item.setTitle(rs.getString("Title"));
+                    item.setDescription(rs.getString("Description"));
+                    item.setCategory(rs.getString("Category"));
+                    item.setLocation(rs.getString("Location"));
+                    item.setPhotoPath(readPhotoPathColumn(rs, "Photo"));
+                    item.setDateFound(rs.getDate("DateUploaded"));
+                    item.setStatus(rs.getString("Status"));
+                    items.add(item);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching items by status: " + e.getMessage());
+        }
+        return items;
     }
 
     /**
