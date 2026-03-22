@@ -97,7 +97,8 @@ public class ItemController {
         newItem.setLocation(location != null ? location.trim() : "");
         newItem.setPhotoPath(photoPath);
         newItem.setDateFound(dateFound != null ? dateFound : new java.util.Date());
-        newItem.setStatus("Found"); // Default status for uploaded items
+        // Must match FOUND_ITEM.Status CHECK constraint (not "Found" — use same value as report "not collected" bucket)
+        newItem.setStatus("Not Collected");
 
         // Set officer information (placeholders for now)
         newItem.setOfficerID(1); // TODO: Get from current logged-in officer

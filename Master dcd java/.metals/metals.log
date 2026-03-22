@@ -66,3 +66,259 @@
 
 2026.03.11 14:38:23 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
 2026.03.11 14:38:25 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:39:26 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+Mar 11, 2026 2:39:26 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 41
+2026.03.11 14:40:04 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:04 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:04 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\EditItemWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:04 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\DeleteItemWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:04 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\ItemController.java. Using fallback presentation compiler.
+2026.03.11 14:40:04 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\ReportController.java. Using fallback presentation compiler.
+2026.03.11 14:40:04 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\dao\MockDataAccessFactory.java. Using fallback presentation compiler.
+2026.03.11 14:40:04 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\core\SessionManager.java. Using fallback presentation compiler.
+2026.03.11 14:40:11 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:40:11 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/Boundary/DeleteItemWindow.java. Output:
+
+2026.03.11 14:40:12 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\DeleteItemWindow.java
+2026.03.11 14:40:13 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\DeleteItemWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:16 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\DeleteItemWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:16 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java
+2026.03.11 14:40:17 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/Boundary/LoginWindow.java. Output:
+
+2026.03.11 14:40:19 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:19 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:20 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:28 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:29 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:30 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:30 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:32 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:39 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:39 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java
+2026.03.11 14:40:39 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/Boundary/ReportWindow.java. Output:
+
+2026.03.11 14:40:39 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:40 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:56 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.11 14:40:56 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\core\SessionManager.java
+2026.03.11 14:40:56 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/core/SessionManager.java. Output:
+
+2026.03.11 14:41:01 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\core\SessionManager.java. Using fallback presentation compiler.
+2026.03.11 14:41:02 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\core\SessionManager.java. Using fallback presentation compiler.
+2026.03.11 14:41:02 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\core\SessionManager.java. Using fallback presentation compiler.
+2026.03.11 14:41:11 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\core\SessionManager.java. Using fallback presentation compiler.
+2026.03.11 14:41:11 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\core\ThemeManager.java
+2026.03.11 14:41:11 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/core/ThemeManager.java. Output:
+
+2026.03.11 14:41:25 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\core\ThemeManager.java. Using fallback presentation compiler.
+2026.03.11 14:41:25 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\dao\MockDataAccessFactory.java
+2026.03.11 14:41:25 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/factory/dao/MockDataAccessFactory.java. Output:
+
+2026.03.11 14:41:26 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\dao\MockDataAccessFactory.java. Using fallback presentation compiler.
+2026.03.11 14:41:28 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\dao\MockDataAccessFactory.java. Using fallback presentation compiler.
+2026.03.11 14:41:32 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\dao\MockDataAccessFactory.java. Using fallback presentation compiler.
+2026.03.11 14:41:32 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\dao\DataAccessFactory.java
+2026.03.11 14:41:32 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/factory/dao/DataAccessFactory.java. Output:
+
+2026.03.11 14:41:32 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\dao\DataAccessFactory.java. Using fallback presentation compiler.
+2026.03.11 14:41:35 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\dao\DataAccessFactory.java. Using fallback presentation compiler.
+2026.03.11 14:41:35 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\dao\SqlDataAccessFactory.java
+2026.03.11 14:41:35 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/factory/dao/SqlDataAccessFactory.java. Output:
+
+2026.03.11 14:41:39 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\dao\SqlDataAccessFactory.java. Using fallback presentation compiler.
+2026.03.11 14:41:39 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\AdminDashboardCreator.java
+2026.03.11 14:41:39 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/factory/AdminDashboardCreator.java. Output:
+
+2026.03.11 14:41:41 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\AdminDashboardCreator.java. Using fallback presentation compiler.
+2026.03.11 14:41:41 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\StudentDashboardCreator.java
+2026.03.11 14:41:41 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/factory/StudentDashboardCreator.java. Output:
+
+2026.03.11 14:41:45 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java
+2026.03.11 14:42:10 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.11 14:42:10 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.11 14:43:04 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.11 14:43:04 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.11 14:43:07 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.11 14:43:58 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.11 14:47:05 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\factory\StudentDashboardCreator.java. Using fallback presentation compiler.
+2026.03.11 14:47:05 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java
+2026.03.11 14:47:06 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/Boundary/LoginWindow.java. Output:
+
+2026.03.11 14:47:11 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:47:13 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:47:13 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:47:36 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\LoginWindow.java. Using fallback presentation compiler.
+2026.03.11 14:47:36 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java
+2026.03.11 14:47:36 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/dataaccess/DBConnection.java. Output:
+
+2026.03.11 14:47:39 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:47:39 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:47:40 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:47:40 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:47:40 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:47:42 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:47:42 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:47:43 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:47:49 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:47:50 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:47:54 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:48:00 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.11 14:48:02 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+Mar 11, 2026 2:48:02 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 380
+2026.03.22 14:59:56 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at d:\2026\software & design\Lost-and-found-2\Master dcd java\.metals\lsp.trace.json or C:\Users\Yassin\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2026.03.22 14:59:58 INFO  logging to files D:\2026\software & design\Lost-and-found-2\Master dcd java\.metals\metals.log
+2026.03.22 14:59:58 INFO  Started: Metals version 1.6.6 in folders 'D:\2026\software & design\Lost-and-found-2\Master dcd java' for client Cursor 1.105.1.
+2026.03.22 14:59:58 INFO  Memory monitor started
+2026.03.22 15:00:02 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026.03.22 15:00:03 WARN  no build tool detected in workspace 'D:\2026\software & design\Lost-and-found-2\Master dcd java'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2026.03.22 15:00:03 WARN  Build server is not auto-connectable.
+2026.03.22 15:00:03 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java
+2026.03.22 15:00:04 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/dataaccess/DBConnection.java. Output:
+
+2026.03.22 15:00:04 INFO  time: code lens generation in 1.65s
+2026.03.22 15:06:19 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\NotificationSender.java
+2026.03.22 15:06:19 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\EmailNotificationSender.java
+2026.03.22 15:06:19 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\InAppNotificationSender.java
+2026.03.22 15:06:19 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\SmsNotificationSender.java
+2026.03.22 15:06:19 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\Notification.java
+2026.03.22 15:06:19 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\ClaimNotification.java
+2026.03.22 15:06:20 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/notification/NotificationSender.java. Output:
+
+2026.03.22 15:06:20 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/notification/ClaimNotification.java. Output:
+
+2026.03.22 15:06:21 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/notification/Notification.java. Output:
+
+2026.03.22 15:06:21 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/notification/SmsNotificationSender.java. Output:
+
+2026.03.22 15:06:22 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\ItemStatusNotification.java
+2026.03.22 15:06:22 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/notification/EmailNotificationSender.java. Output:
+
+2026.03.22 15:06:22 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\GeneralNotification.java
+2026.03.22 15:06:23 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/notification/InAppNotificationSender.java. Output:
+
+2026.03.22 15:06:22 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/notification/GeneralNotification.java. Output:
+
+2026.03.22 15:06:23 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/notification/ItemStatusNotification.java. Output:
+
+2026.03.22 15:06:28 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\report\ReportFormatter.java
+2026.03.22 15:06:28 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/report/ReportFormatter.java. Output:
+
+2026.03.22 15:06:29 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\report\PdfReportFormatter.java
+2026.03.22 15:06:29 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\report\CsvReportFormatter.java
+2026.03.22 15:06:29 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/report/PdfReportFormatter.java. Output:
+
+2026.03.22 15:06:30 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/report/CsvReportFormatter.java. Output:
+
+2026.03.22 15:06:30 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\report\ScreenReportFormatter.java
+2026.03.22 15:06:31 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/report/ScreenReportFormatter.java. Output:
+
+2026.03.22 15:06:31 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\report\Report.java
+2026.03.22 15:06:31 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/report/Report.java. Output:
+
+2026.03.22 15:06:31 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\report\WeeklyReport.java
+2026.03.22 15:06:31 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/report/WeeklyReport.java. Output:
+
+2026.03.22 15:06:32 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\report\LostItemsReport.java
+2026.03.22 15:06:33 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/report/LostItemsReport.java. Output:
+
+2026.03.22 15:06:33 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\report\ClaimedItemsReport.java
+2026.03.22 15:06:32 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/report/ClaimedItemsReport.java. Output:
+
+2026.03.22 15:06:40 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\report\CsvReportFormatter.java. Using fallback presentation compiler.
+2026.03.22 15:06:40 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\NotificationBridgeDemo.java
+2026.03.22 15:06:40 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/controller/NotificationBridgeDemo.java. Output:
+
+2026.03.22 15:06:40 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\ReportController.java
+2026.03.22 15:06:40 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/controller/ReportController.java. Output:
+
+2026.03.22 15:06:42 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\ReportController.java. Using fallback presentation compiler.
+2026.03.22 15:06:42 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java
+2026.03.22 15:06:42 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/Boundary/ReportWindow.java. Output:
+
+2026.03.22 15:06:45 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.22 15:06:45 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.22 15:06:46 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.22 15:06:46 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.22 15:06:52 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.22 15:06:52 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.22 15:07:02 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.22 15:07:11 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.22 15:07:12 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.22 15:08:13 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.22 15:08:14 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.22 15:09:09 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.22 15:09:09 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.22 15:10:13 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java
+2026.03.22 15:10:13 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/master/dcd/MasterDcd.java. Output:
+
+2026.03.22 15:10:22 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.22 15:11:49 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\dataaccess\DBConnection.java. Using fallback presentation compiler.
+2026.03.22 15:11:49 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\NotificationBridgeDemo.java
+2026.03.22 15:11:53 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\NotificationBridgeDemo.java. Using fallback presentation compiler.
+2026.03.22 15:11:54 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\NotificationBridgeDemo.java. Using fallback presentation compiler.
+2026.03.22 15:11:58 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\NotificationBridgeDemo.java. Using fallback presentation compiler.
+2026.03.22 15:12:00 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\NotificationBridgeDemo.java. Using fallback presentation compiler.
+2026.03.22 15:12:09 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\ItemStatusNotification.java
+2026.03.22 15:12:10 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\Notification.java
+2026.03.22 15:12:12 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\ClaimNotification.java
+2026.03.22 15:12:13 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\EmailNotificationSender.java
+2026.03.22 15:12:13 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\GeneralNotification.java
+2026.03.22 15:12:18 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\InAppNotificationSender.java
+2026.03.22 15:12:18 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\ItemStatusNotification.java
+2026.03.22 15:12:20 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\Notification.java
+2026.03.22 15:12:24 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\SmsNotificationSender.java
+2026.03.22 15:12:28 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\ClaimNotification.java
+2026.03.22 15:12:29 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\EmailNotificationSender.java
+2026.03.22 15:12:30 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\GeneralNotification.java
+2026.03.22 15:12:32 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\InAppNotificationSender.java
+2026.03.22 15:12:34 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\Notification.java
+2026.03.22 15:12:35 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\ItemStatusNotification.java
+2026.03.22 15:12:36 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\SmsNotificationSender.java
+2026.03.22 15:12:39 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\NotificationBridgeDemo.java
+2026.03.22 15:12:45 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\NotificationBridgeDemo.java. Using fallback presentation compiler.
+2026.03.22 15:12:47 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\ClaimNotification.java
+2026.03.22 15:12:49 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\EmailNotificationSender.java
+2026.03.22 15:12:50 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\NotificationSender.java
+2026.03.22 15:12:55 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\SmsNotificationSender.java
+2026.03.22 15:12:58 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\EmailNotificationSender.java
+2026.03.22 15:13:02 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\GeneralNotification.java
+2026.03.22 15:13:04 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\InAppNotificationSender.java
+2026.03.22 15:13:07 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\Notification.java
+2026.03.22 15:13:11 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\NotificationSender.java
+2026.03.22 15:13:13 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\ItemStatusNotification.java
+2026.03.22 15:13:16 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\EmailNotificationSender.java
+2026.03.22 15:13:24 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\ClaimNotification.java
+2026.03.22 15:15:36 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\ClaimNotification.java. Using fallback presentation compiler.
+2026.03.22 15:15:36 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\ClaimNotification.java. Using fallback presentation compiler.
+2026.03.22 15:15:45 INFO  no build target found for d:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\NotificationBridgeDemo.java. Using fallback presentation compiler.
+2026.03.22 15:15:45 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\notification\NotificationBridgeDemo.java
+2026.03.22 15:15:45 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/notification/NotificationBridgeDemo.java. Output:
+
+2026.03.22 15:15:45 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\ReportWindow.java. Using fallback presentation compiler.
+2026.03.22 15:16:25 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java
+2026.03.22 15:16:29 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.22 15:18:01 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.03.22 15:21:58 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\DAO\ItemDataAccess.java
+2026.03.22 15:21:58 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/DAO/ItemDataAccess.java. Output:
+
+2026.03.22 15:22:00 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\DAO\ItemDataAccess.java. Using fallback presentation compiler.
+2026.03.22 15:22:00 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\DAO\ItemDataAccess.java. Using fallback presentation compiler.
+2026.03.22 15:22:01 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\DAO\ItemDataAccess.java. Using fallback presentation compiler.
+2026.03.22 15:22:02 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\DAO\ItemDataAccess.java. Using fallback presentation compiler.
+2026.03.22 15:22:02 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\DAO\ItemDataAccess.java. Using fallback presentation compiler.
+2026.03.22 15:22:06 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\DAO\ItemDataAccess.java. Using fallback presentation compiler.
+2026.03.22 15:24:51 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\ItemController.java
+2026.03.22 15:24:51 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/controller/ItemController.java. Output:
+
+2026.03.22 15:24:52 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\DAO\ItemDataAccess.java. Using fallback presentation compiler.
+2026.03.22 15:24:52 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\MatchingController.java
+2026.03.22 15:24:52 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/controller/MatchingController.java. Output:
+
+2026.03.22 15:24:52 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\controller\MatchingController.java. Using fallback presentation compiler.
+2026.03.22 15:24:53 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\EditItemWindow.java
+2026.03.22 15:24:54 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/Boundary/EditItemWindow.java. Output:
+
+2026.03.22 15:24:54 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\Boundary\EditItemWindow.java. Using fallback presentation compiler.
+2026.03.22 15:28:09 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java

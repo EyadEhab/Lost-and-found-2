@@ -40,8 +40,9 @@ public class EditItemWindow extends JFrame {
             "Electronics", "Books", "Personal Items", "Bags", "Accessories"
     };
 
+    /** Labels must satisfy FOUND_ITEM.Status CHECK in SQL Server (avoid legacy "Found" on save). */
     private static final String[] STATUSES = {
-            "Found", "Processing Claim", "Collected", "Archived"
+            "Not Collected", "Processing Claim", "Collected", "Archived"
     };
 
     public EditItemWindow() {
@@ -290,7 +291,12 @@ public class EditItemWindow extends JFrame {
             txtDescription.setText(item.getDescription());
             cmbCategory.setSelectedItem(item.getCategory());
             txtLocation.setText(item.getLocation());
-            cmbStatus.setSelectedItem(item.getStatus() != null ? item.getStatus() : "Found");
+            String st = item.getStatus();
+            if (st == null || st.isEmpty() || "Found".equals(st)) {
+                cmbStatus.setSelectedItem("Not Collected");
+            } else {
+                cmbStatus.setSelectedItem(st);
+            }
             if (item.getDateFound() != null) {
                 spnDateFound.setValue(item.getDateFound());
             }

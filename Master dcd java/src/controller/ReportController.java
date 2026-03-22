@@ -1,9 +1,14 @@
 package controller;
 
 import java.util.*;
+import entity.Claim;
 import entity.Item;
 import factory.dao.DataAccessFactory;
 import factory.dao.SqlDataAccessFactory;
+import report.ClaimedItemsReport;
+import report.LostItemsReport;
+import report.ReportFormatter;
+import report.WeeklyReport;
 
 /**
  * 
@@ -49,6 +54,33 @@ public class ReportController {
             return "No items to report.";
         }
         return "Report for " + itemList.size() + " items.";
+    }
+
+    /**
+     * Bridge-based weekly report: same data source as {@link #createWeeklyReport(Object)}; output shape depends on formatter.
+     */
+    public String buildWeeklyReportBridge(ReportFormatter formatter, Object dateRange) {
+        List<Item> items = createWeeklyReport(dateRange);
+        if (items == null) {
+            items = Collections.emptyList();
+        }
+        return new WeeklyReport(formatter, items).export();
+    }
+
+    /**
+     * Bridge-based list of items (lost/found style lines).
+     */
+    public String buildLostItemsReportBridge(ReportFormatter formatter, List<Item> items) {
+        List<Item> safe = items != null ? items : Collections.emptyList();
+        return new LostItemsReport(formatter, safe).export();
+    }
+
+    /**
+     * Bridge-based claims listing.
+     */
+    public String buildClaimedItemsReportBridge(ReportFormatter formatter, List<Claim> claims) {
+        List<Claim> safe = claims != null ? claims : Collections.emptyList();
+        return new ClaimedItemsReport(formatter, safe).export();
     }
 
 }

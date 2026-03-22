@@ -1,5 +1,6 @@
 package DAO;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
 import entity.Item;
@@ -10,6 +11,29 @@ import dataaccess.DBConnection;
  * Handles database operations for lost and found items
  */
 public class ItemDataAccess {
+
+    /**
+     * DB column {@code Photo} is VARBINARY(MAX); the app stores a file path string.
+     * Write/read as UTF-8 bytes so JDBC types match the column without implicit nvarchar conversion.
+     */
+    private static void setPhotoPathColumn(PreparedStatement stmt, int index, String path) throws SQLException {
+        if (path == null || path.isEmpty()) {
+            stmt.setNull(index, Types.VARBINARY);
+        } else {
+            stmt.setBytes(index, path.getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
+    private static String readPhotoPathColumn(ResultSet rs, String column) throws SQLException {
+        byte[] bytes = rs.getBytes(column);
+        if (bytes == null) {
+            return null;
+        }
+        if (bytes.length == 0) {
+            return "";
+        }
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
 
     /**
      * Default constructor
@@ -39,7 +63,7 @@ public class ItemDataAccess {
                     item.setDescription(rs.getString("Description"));
                     item.setCategory(rs.getString("Category"));
                     item.setLocation(rs.getString("Location"));
-                    item.setPhotoPath(rs.getString("Photo"));
+                    item.setPhotoPath(readPhotoPathColumn(rs, "Photo"));
                     item.setDateFound(rs.getDate("DateUploaded"));
                     item.setStatus(rs.getString("Status"));
                     return item;
@@ -110,7 +134,7 @@ public class ItemDataAccess {
                 item.setDescription(rs.getString("Description"));
                 item.setCategory(rs.getString("Category"));
                 item.setLocation(rs.getString("Location"));
-                item.setPhotoPath(rs.getString("Photo"));
+                item.setPhotoPath(readPhotoPathColumn(rs, "Photo"));
                 item.setDateFound(rs.getDate("DateUploaded"));
                 item.setStatus(rs.getString("Status"));
                 items.add(item);
@@ -144,7 +168,7 @@ public class ItemDataAccess {
             stmt.setString(3, item.getCategory());
             stmt.setString(4, "Unknown"); // Default for Color
             stmt.setString(5, item.getLocation());
-            stmt.setString(6, item.getPhotoPath());
+            setPhotoPathColumn(stmt, 6, item.getPhotoPath());
             stmt.setString(7, item.getStatus());
             stmt.setDate(8, new java.sql.Date(item.getDateFound().getTime()));
             stmt.setInt(9, item.getOfficerID()); // Maps to UploadedByUserID column in DB
@@ -181,7 +205,7 @@ public class ItemDataAccess {
             stmt.setString(3, item.getCategory());
             stmt.setString(4, "Unknown");
             stmt.setString(5, item.getLocation());
-            stmt.setString(6, item.getPhotoPath());
+            setPhotoPathColumn(stmt, 6, item.getPhotoPath());
             stmt.setString(7, item.getStatus());
             stmt.setInt(8, item.getItemID());
 
@@ -223,7 +247,8 @@ public class ItemDataAccess {
         }
 
         // Add status filter for available items
-        sql += " AND Status IN ('Found', 'Processing Claim')";
+        // Available to search: not yet collected (aligns with DB CHECK + DBConnection stats)
+        sql += " AND Status IN ('Not Collected', 'Found', 'Processing Claim')";
 
         try (Connection conn = DBConnection.getInstance().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -250,7 +275,7 @@ public class ItemDataAccess {
                     item.setDescription(rs.getString("Description"));
                     item.setCategory(rs.getString("Category"));
                     item.setLocation(rs.getString("Location"));
-                    item.setPhotoPath(rs.getString("Photo")); // Map Photo -> photoPath
+                    item.setPhotoPath(readPhotoPathColumn(rs, "Photo")); // Map Photo -> photoPath
                     item.setDateFound(rs.getDate("DateUploaded")); // Map DateUploaded -> dateFound
                     item.setStatus(rs.getString("Status"));
 
