@@ -30,9 +30,9 @@ public class Item {
     private Image photo;
 
     /**
-     * 
+     * Shared item type metadata (Flyweight)
      */
-    private String status;
+    private ItemTypeFlyweight itemType;
 
     /**
      * 
@@ -43,11 +43,6 @@ public class Item {
      *
      */
     private String tags;
-
-    /**
-     *
-     */
-    private String category;
 
     /**
      * Item title
@@ -88,7 +83,7 @@ public class Item {
     }
 
     public String getStatus() {
-        return status;
+        return itemType != null ? itemType.getStatus() : null;
     }
 
     public Date getDateFound() {
@@ -100,7 +95,7 @@ public class Item {
     }
 
     public String getCategory() {
-        return category;
+        return itemType != null ? itemType.getCategory() : null;
     }
 
     // Setters
@@ -117,7 +112,8 @@ public class Item {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        // Automatically link to shared flyweight
+        this.itemType = factory.ItemTypeFactory.getItemType(getCategory(), status);
     }
 
     public void setDateFound(Date dateFound) {
@@ -129,7 +125,24 @@ public class Item {
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        // Automatically link to shared flyweight
+        this.itemType = factory.ItemTypeFactory.getItemType(category, getStatus());
+    }
+
+    /**
+     * Set the shared flyweight instance directly.
+     * @param itemType the shared metadata
+     */
+    public void setItemType(ItemTypeFlyweight itemType) {
+        this.itemType = itemType;
+    }
+
+    /**
+     * Get the shared flyweight instance.
+     * @return the shared metadata
+     */
+    public ItemTypeFlyweight getItemType() {
+        return itemType;
     }
 
     public String getTitle() {

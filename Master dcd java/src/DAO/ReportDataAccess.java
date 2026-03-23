@@ -51,11 +51,10 @@ public class ReportDataAccess {
                     item.setItemID(rs.getInt("ItemID"));
                     item.setTitle(rs.getString("Title"));
                     item.setDescription(rs.getString("Description"));
-                    item.setCategory(rs.getString("Category"));
+                    item.setItemType(factory.ItemTypeFactory.getItemType(rs.getString("Category"), rs.getString("Status")));
                     item.setLocation(rs.getString("Location"));
                     // Use standard DAO methods if possible, but here we'll just map basics
                     item.setDateFound(rs.getDate("DateUploaded"));
-                    item.setStatus(rs.getString("Status"));
                     items.add(item);
                 }
             }

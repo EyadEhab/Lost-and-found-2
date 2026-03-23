@@ -63,11 +63,10 @@ public class ItemDataAccess {
                     item.setItemID(rs.getInt("ItemID"));
                     item.setTitle(rs.getString("Title"));
                     item.setDescription(rs.getString("Description"));
-                    item.setCategory(rs.getString("Category"));
+                    item.setItemType(factory.ItemTypeFactory.getItemType(rs.getString("Category"), rs.getString("Status")));
                     item.setLocation(rs.getString("Location"));
                     item.setPhotoPath(readPhotoPathColumn(rs, "Photo"));
                     item.setDateFound(rs.getDate("DateUploaded"));
-                    item.setStatus(rs.getString("Status"));
                     return item;
                 }
             }
@@ -140,11 +139,10 @@ public class ItemDataAccess {
                 item.setItemID(rs.getInt("ItemID"));
                 item.setTitle(rs.getString("Title"));
                 item.setDescription(rs.getString("Description"));
-                item.setCategory(rs.getString("Category"));
+                item.setItemType(factory.ItemTypeFactory.getItemType(rs.getString("Category"), rs.getString("Status")));
                 item.setLocation(rs.getString("Location"));
                 item.setPhotoPath(readPhotoPathColumn(rs, "Photo"));
                 item.setDateFound(rs.getDate("DateUploaded"));
-                item.setStatus(rs.getString("Status"));
                 items.add(item);
             }
         } catch (SQLException e) {
@@ -281,11 +279,10 @@ public class ItemDataAccess {
                     item.setItemID(rs.getInt("ItemID"));
                     item.setTitle(rs.getString("Title"));
                     item.setDescription(rs.getString("Description"));
-                    item.setCategory(rs.getString("Category"));
+                    item.setItemType(factory.ItemTypeFactory.getItemType(rs.getString("Category"), rs.getString("Status")));
                     item.setLocation(rs.getString("Location"));
                     item.setPhotoPath(readPhotoPathColumn(rs, "Photo")); // Map Photo -> photoPath
                     item.setDateFound(rs.getDate("DateUploaded")); // Map DateUploaded -> dateFound
-                    item.setStatus(rs.getString("Status"));
 
                     items.add(item);
                 }
@@ -328,11 +325,10 @@ public class ItemDataAccess {
                     item.setItemID(rs.getInt("ItemID"));
                     item.setTitle(rs.getString("Title"));
                     item.setDescription(rs.getString("Description"));
-                    item.setCategory(rs.getString("Category"));
+                    item.setItemType(factory.ItemTypeFactory.getItemType(rs.getString("Category"), rs.getString("Status")));
                     item.setLocation(rs.getString("Location"));
                     item.setPhotoPath(readPhotoPathColumn(rs, "Photo"));
                     item.setDateFound(rs.getDate("DateUploaded"));
-                    item.setStatus(rs.getString("Status"));
                     items.add(item);
                 }
             }
