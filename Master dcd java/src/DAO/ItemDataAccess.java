@@ -178,7 +178,7 @@ public class ItemDataAccess {
             stmt.setString(5, item.getLocation());
             setPhotoPathColumn(stmt, 6, item.getPhotoPath());
             String status = item.getStatus();
-            stmt.setString(7, status != null ? status : "Not Collected");
+            stmt.setString(7, status != null ? status : "Found"); // Default to 'Found' if null
             stmt.setDate(8, new java.sql.Date(item.getDateFound().getTime()));
             stmt.setInt(9, item.getOfficerID()); // Maps to UploadedByUserID column in DB
 
@@ -265,9 +265,8 @@ public class ItemDataAccess {
             sql += " AND (Description LIKE ? OR Title LIKE ?)";
         }
 
-        // Add status filter for available items
         // Available to search: not yet collected (aligns with DB CHECK + DBConnection stats)
-        sql += " AND Status IN ('Not Collected', 'Found', 'Processing Claim')";
+        sql += " AND Status IN ('Found', 'Processing Claim')";
 
         try (Connection conn = DBConnection.getInstance().getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {

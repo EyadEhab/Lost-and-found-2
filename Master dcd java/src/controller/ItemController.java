@@ -99,8 +99,8 @@ public class ItemController {
         newItem.setLocation(location != null ? location.trim() : "");
         newItem.setPhotoPath(photoPath);
         newItem.setDateFound(dateFound != null ? dateFound : new java.util.Date());
-        // Must match FOUND_ITEM.Status CHECK — allowed values: 'Unclaimed', 'Claimed', 'Pending'
-        newItem.setStatus("Unclaimed");
+        // Must match FOUND_ITEM.Status CHECK — allowed values: 'Found', 'Processing Claim', 'Collected', 'Archived'
+        newItem.setStatus("Found");
 
         // Set officer information from the active session
         int sessionUserId = SessionManager.getInstance().getUserId();
