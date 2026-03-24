@@ -56,14 +56,8 @@ public class ReportWindow extends javax.swing.JFrame {
         JButton refreshButton = uiFactory.createButton("Refresh Statistics");
         refreshButton.addActionListener(e -> refreshStats());
 
-        JButton demoNotifButton = uiFactory.createButton("Demo: Notification Bridge");
-        demoNotifButton.addActionListener(e -> NotificationBridgeDemo.runConsoleDemo());
-
-        JButton demoReportButton = uiFactory.createButton("Demo: Report Bridge");
-        demoReportButton.addActionListener(e -> showReportBridgeDemo());
-
-        JButton demoReportDecoratorButton = uiFactory.createButton("Demo: Report Decorator");
-        demoReportDecoratorButton.addActionListener(e -> showReportDecoratorDemo());
+        JButton reportButton = uiFactory.createButton("Report Bridge");
+        reportButton.addActionListener(e -> showReportBridgeDemo());
 
         JButton exportCsvButton = uiFactory.createButton("Export All Items (CSV)");
         exportCsvButton.addActionListener(e -> exportAllItemsToCsv());
@@ -73,9 +67,7 @@ public class ReportWindow extends javax.swing.JFrame {
         mainPanel.add(collectedLabel);
         mainPanel.add(notCollectedLabel);
         mainPanel.add(refreshButton);
-        mainPanel.add(demoNotifButton);
-        mainPanel.add(demoReportButton);
-        mainPanel.add(demoReportDecoratorButton);
+        mainPanel.add(reportButton);
         mainPanel.add(exportCsvButton);
 
         getContentPane().setBackground(uiFactory.getBackgroundColor());
@@ -91,7 +83,10 @@ public class ReportWindow extends javax.swing.JFrame {
         notCollectedLabel.setText("Items Not Collected: " + stats.getOrDefault("Not Collected", 0));
     }
 
-    /** Shows Bridge-based report text (screen + simulated PDF) without changing existing DAO behavior. */
+    /**
+     * Shows Bridge-based report text (screen + simulated PDF) without changing
+     * existing DAO behavior.
+     */
     private void showReportBridgeDemo() {
         String screenText = reportController.buildWeeklyReportBridge(new ScreenReportFormatter(), null);
         String pdfLikeText = reportController.buildWeeklyReportBridge(new PdfReportFormatter(), null);
@@ -105,7 +100,10 @@ public class ReportWindow extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, scroll, "Report Bridge demo", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    /** Shows Decorator-based report text (screen + simulated PDF) without changing existing DAO behavior. */
+    /**
+     * Shows Decorator-based report text (screen + simulated PDF) without changing
+     * existing DAO behavior.
+     */
     private void showReportDecoratorDemo() {
         String screenText = reportController.buildWeeklyReportDecorated(new ScreenReportFormatter(), null);
         String pdfLikeText = reportController.buildWeeklyReportDecorated(new PdfReportFormatter(), null);
@@ -124,19 +122,19 @@ public class ReportWindow extends javax.swing.JFrame {
         // Fetch all items from DB
         DAO.ItemDataAccess ida = new DAO.ItemDataAccess();
         java.util.List<Item> allItems = ida.getAllItems();
-        
+
         // Use the report adapter to generate CSV
         ItemReportAdapter adapter = new ItemReportAdapter(allItems);
-        
+
         // Save to project root folder as requested: "report adapter.csv"
         String rootDir = System.getProperty("user.dir");
         String filePath = rootDir + java.io.File.separator + "report adapter.csv";
-        
+
         adapter.exportToCsv(filePath);
-        
-        JOptionPane.showMessageDialog(this, 
-            "Successfully exported items to:\n" + filePath, 
-            "Export Successful", 
-            JOptionPane.INFORMATION_MESSAGE);
+
+        JOptionPane.showMessageDialog(this,
+                "Successfully exported items to:\n" + filePath,
+                "Export Successful",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 }
