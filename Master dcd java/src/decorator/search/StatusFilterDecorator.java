@@ -27,7 +27,8 @@ public class StatusFilterDecorator extends ItemSearchDecorator {
         }
 
         String statusFilter = criteria.getStatusFilter();
-        if (statusFilter == null || statusFilter.trim().isEmpty()) {
+        if (statusFilter == null || statusFilter.trim().isEmpty() || 
+            "All Statuses".equalsIgnoreCase(statusFilter) || "All".equalsIgnoreCase(statusFilter)) {
             return base;
         }
 

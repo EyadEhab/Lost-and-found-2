@@ -33,6 +33,10 @@ public class ItemSearchCriteria {
         return new ItemSearchCriteria(keywords, category, "Available", null, null, null);
     }
 
+    public static ItemSearchCriteria forAllFilters(String keywords, String category, String location, String status) {
+        return new ItemSearchCriteria(keywords, category, status, location, null, null);
+    }
+
     public String getKeywords() {
         return keywords;
     }

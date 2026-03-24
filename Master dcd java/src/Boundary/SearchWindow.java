@@ -24,11 +24,15 @@ public class SearchWindow extends JFrame {
 
     // UI Components
     private JTextField searchField;
+    private JTextField locationField;
     private JComboBox<String> categoryCombo;
+    private JComboBox<String> statusCombo;
     private JTable resultsTable;
     private DefaultTableModel tableModel;
     private JLabel searchIcon;
     private JLabel categoryIcon;
+    private JLabel locationIcon;
+    private JLabel statusIcon;
     private JLabel resultsCountLabel;
     private JPanel searchPanel;
     private JButton claimButton;
@@ -39,6 +43,10 @@ public class SearchWindow extends JFrame {
     // Categories
     private static final String[] CATEGORIES = {
             "All Categories", "Electronics", "Books", "Personal Items", "Bags", "Accessories"
+    };
+
+    private static final String[] STATUS_OPTIONS = {
+            "Available", "Found", "Processing Claim", "Collected", "Archived", "All Statuses"
     };
 
     /**
@@ -97,6 +105,28 @@ public class SearchWindow extends JFrame {
         // Category icon label
         categoryIcon = factory.createLabel("Category:");
         categoryIcon.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        // Location field with enhanced styling
+        locationField = factory.createTextField(15);
+        locationField.setToolTipText("Filter by location (e.g., 'Library', 'Gym')");
+        locationField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+
+        // Location icon label
+        locationIcon = factory.createLabel("Location:");
+        locationIcon.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        // Status combo box with enhanced styling
+        statusCombo = new JComboBox<>(STATUS_OPTIONS);
+        statusCombo.setSelectedIndex(0); // Default to "Available"
+        statusCombo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        statusCombo.setBackground(factory.getSurfaceColor());
+        statusCombo.setForeground(factory.getTextColor());
+        statusCombo.setBorder(BorderFactory.createLineBorder(
+                core.ThemeManager.getInstance().isDarkMode() ? new Color(80, 80, 80) : new Color(200, 200, 200), 1));
+
+        // Status icon label
+        statusIcon = factory.createLabel("Status:");
+        statusIcon.setFont(new Font("Segoe UI", Font.BOLD, 14));
 
         // Results count label
         resultsCountLabel = factory.createLabel("Ready to search...");
@@ -223,6 +253,33 @@ public class SearchWindow extends JFrame {
         gbc.fill = GridBagConstraints.NONE;
         searchPanel.add(categoryCombo, gbc);
 
+        // --- Second Row: Location & Status ---
+        gbc.gridy = 1;
+        gbc.weightx = 0.0;
+
+        // Location section
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        searchPanel.add(locationIcon, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        searchPanel.add(locationField, gbc);
+
+        // Status section
+        gbc.gridx = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
+        searchPanel.add(statusIcon, gbc);
+
+        gbc.gridx = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.NONE;
+        searchPanel.add(statusCombo, gbc);
+
         // Center panel for results with enhanced styling
         JScrollPane scrollPane = new JScrollPane(resultsTable);
         scrollPane.setBorder(BorderFactory.createCompoundBorder(
@@ -285,6 +342,24 @@ public class SearchWindow extends JFrame {
                 performSearch();
             }
         });
+
+        // Document listener for location field
+        locationField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) { performSearch(); }
+            @Override
+            public void removeUpdate(DocumentEvent e) { performSearch(); }
+            @Override
+            public void changedUpdate(DocumentEvent e) { performSearch(); }
+        });
+
+        // Action listener for status combo box
+        statusCombo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                performSearch();
+            }
+        });
     }
 
     /**
@@ -294,9 +369,11 @@ public class SearchWindow extends JFrame {
         try {
             String query = searchField.getText().trim();
             String category = (String) categoryCombo.getSelectedItem();
+            String location = locationField.getText().trim();
+            String status = (String) statusCombo.getSelectedItem();
 
-            // Call controller (View → Controller → DAO)
-            List<Item> results = matchingController.performSmartSearch(query, category);
+            // Call controller with all filters
+            List<Item> results = matchingController.performSmartSearch(query, category, location, status);
 
             // Update UI with results
             updateResultsTable(results);

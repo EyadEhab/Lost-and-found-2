@@ -38,14 +38,16 @@ public class MatchingController {
     }
 
     /**
-     * Performs smart search with category filtering
+     * Performs smart search with category, location, and status filtering
      * @param keywords search keywords
      * @param category category filter ('All Categories' for no filter)
-     * @return list of matching items with status still available (not collected, etc.)
+     * @param location location filter (substring match)
+     * @param status status filter ('All Statuses' for no filter)
+     * @return list of matching items
      */
-    public List<Item> performSmartSearch(String keywords, String category) {
-        // Decorator chain: basic search + category + status (+ optional location/date).
-        ItemSearchCriteria criteria = ItemSearchCriteria.forKeywordsAndCategory(keywords, category);
+    public List<Item> performSmartSearch(String keywords, String category, String location, String status) {
+        // Decorator chain: basic search + category + status + location + date.
+        ItemSearchCriteria criteria = ItemSearchCriteria.forAllFilters(keywords, category, location, status);
 
         ItemSearchComponent search = new BasicItemSearch();
         search = new CategoryFilterDecorator(search);
@@ -55,16 +57,17 @@ public class MatchingController {
 
         List<Item> results = search.search(criteria);
 
-        // Preserve existing "available-only" behavior (defensive: DAO and decorators should match).
-        List<Item> filteredResults = new ArrayList<>();
-        for (Item item : results) {
-            String st = item.getStatus();
-            if ("Not Collected".equals(st) || "Found".equals(st) || "Processing Claim".equals(st)) {
-                filteredResults.add(item);
-            }
-        }
+        // If a specific status was requested, we trust the decorator.
+        // If "Available" or "All Statuses" was requested, we might want to ensure consistency.
+        // For simplicity and to allow searching for 'Collected' items, we return the results from the decorators.
+        return results;
+    }
 
-        return filteredResults;
+    /**
+     * Legacy version for backward compatibility
+     */
+    public List<Item> performSmartSearch(String keywords, String category) {
+        return performSmartSearch(keywords, category, null, "Available");
     }
 
 }
