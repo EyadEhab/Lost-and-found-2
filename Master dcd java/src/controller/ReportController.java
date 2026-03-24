@@ -5,6 +5,7 @@ import entity.Claim;
 import entity.Item;
 import factory.dao.DataAccessFactory;
 import factory.dao.SqlDataAccessFactory;
+import decorator.report.*;
 import report.ClaimedItemsReport;
 import report.LostItemsReport;
 import report.ReportFormatter;
@@ -108,6 +109,28 @@ public class ReportController {
     public String buildClaimedItemsReportBridge(ReportFormatter formatter, List<Claim> claims) {
         List<Claim> safe = claims != null ? claims : fetchClaimedItems();
         return new ClaimedItemsReport(formatter, safe).export();
+    }
+
+    /**
+     * Decorator-based weekly report: base content + extra sections.
+     * Does not replace existing Bridge-based report flow.
+     */
+    public String buildWeeklyReportDecorated(ReportFormatter formatter, Object dateRange) {
+        List<Item> items = createWeeklyReport(dateRange);
+        if (items == null) {
+            items = Collections.emptyList();
+        }
+
+        ReportContext ctx = new ReportContext(items);
+
+        ReportContent content = new SimpleReportContent();
+        content = new StatisticsDecorator(content);
+        content = new SummaryDecorator(content);
+        content = new FooterDecorator(content);
+        content = new DetailsDecorator(content);
+
+        String title = "Weekly lost & found report (decorators)";
+        return formatter.format(title, content.render(ctx));
     }
 
 }

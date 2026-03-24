@@ -2,6 +2,7 @@ package controller;
 
 import java.util.*;
 import entity.Item;
+import decorator.search.*;
 
 /**
  * 
@@ -43,12 +44,18 @@ public class MatchingController {
      * @return list of matching items with status still available (not collected, etc.)
      */
     public List<Item> performSmartSearch(String keywords, String category) {
-        DAO.ItemDataAccess dao = new DAO.ItemDataAccess();
+        // Decorator chain: basic search + category + status (+ optional location/date).
+        ItemSearchCriteria criteria = ItemSearchCriteria.forKeywordsAndCategory(keywords, category);
 
-        // Call DAO to perform the search with filters
-        List<Item> results = dao.searchByKeywordsAndCategory(keywords, category);
+        ItemSearchComponent search = new BasicItemSearch();
+        search = new CategoryFilterDecorator(search);
+        search = new StatusFilterDecorator(search);
+        search = new LocationFilterDecorator(search);
+        search = new DateFilterDecorator(search);
 
-        // Filter results to only include items that are still available
+        List<Item> results = search.search(criteria);
+
+        // Preserve existing "available-only" behavior (defensive: DAO and decorators should match).
         List<Item> filteredResults = new ArrayList<>();
         for (Item item : results) {
             String st = item.getStatus();

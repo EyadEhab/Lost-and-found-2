@@ -62,6 +62,9 @@ public class ReportWindow extends javax.swing.JFrame {
         JButton demoReportButton = uiFactory.createButton("Demo: Report Bridge");
         demoReportButton.addActionListener(e -> showReportBridgeDemo());
 
+        JButton demoReportDecoratorButton = uiFactory.createButton("Demo: Report Decorator");
+        demoReportDecoratorButton.addActionListener(e -> showReportDecoratorDemo());
+
         JButton exportCsvButton = uiFactory.createButton("Export All Items (CSV)");
         exportCsvButton.addActionListener(e -> exportAllItemsToCsv());
 
@@ -72,6 +75,7 @@ public class ReportWindow extends javax.swing.JFrame {
         mainPanel.add(refreshButton);
         mainPanel.add(demoNotifButton);
         mainPanel.add(demoReportButton);
+        mainPanel.add(demoReportDecoratorButton);
         mainPanel.add(exportCsvButton);
 
         getContentPane().setBackground(uiFactory.getBackgroundColor());
@@ -99,6 +103,21 @@ public class ReportWindow extends javax.swing.JFrame {
         area.setColumns(48);
         JScrollPane scroll = new JScrollPane(area);
         JOptionPane.showMessageDialog(this, scroll, "Report Bridge demo", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /** Shows Decorator-based report text (screen + simulated PDF) without changing existing DAO behavior. */
+    private void showReportDecoratorDemo() {
+        String screenText = reportController.buildWeeklyReportDecorated(new ScreenReportFormatter(), null);
+        String pdfLikeText = reportController.buildWeeklyReportDecorated(new PdfReportFormatter(), null);
+        String csvText = reportController.buildWeeklyReportDecorated(new CsvReportFormatter(), null);
+
+        JTextArea area = new JTextArea(
+                screenText + "\n\n---\n\n" + pdfLikeText + "\n\n---\n\n" + csvText);
+        area.setEditable(false);
+        area.setRows(20);
+        area.setColumns(52);
+        JScrollPane scroll = new JScrollPane(area);
+        JOptionPane.showMessageDialog(this, scroll, "Report Decorator demo", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void exportAllItemsToCsv() {
