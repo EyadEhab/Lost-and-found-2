@@ -22,7 +22,9 @@ public class ItemDataAccess {
         if (path == null || path.isEmpty()) {
             stmt.setNull(index, Types.VARBINARY);
         } else {
-            stmt.setBytes(index, path.getBytes(StandardCharsets.UTF_8));
+            // Use setObject with explicit Types.VARBINARY to prevent MSSQL JDBC from
+            // tagging this parameter as nvarchar, which would cause an implicit-conversion error.
+            stmt.setObject(index, path.getBytes(StandardCharsets.UTF_8), Types.VARBINARY);
         }
     }
 
@@ -175,7 +177,8 @@ public class ItemDataAccess {
             stmt.setString(4, "Unknown"); // Default for Color
             stmt.setString(5, item.getLocation());
             setPhotoPathColumn(stmt, 6, item.getPhotoPath());
-            stmt.setString(7, item.getStatus());
+            String status = item.getStatus();
+            stmt.setString(7, status != null ? status : "Not Collected");
             stmt.setDate(8, new java.sql.Date(item.getDateFound().getTime()));
             stmt.setInt(9, item.getOfficerID()); // Maps to UploadedByUserID column in DB
 
@@ -185,6 +188,16 @@ public class ItemDataAccess {
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         return generatedKeys.getInt(1);
+                    }
+                }
+                // Some SQL Server JDBC setups return no rows from getGeneratedKeys; use session scope
+                try (Statement idStmt = conn.createStatement();
+                        ResultSet rsId = idStmt.executeQuery("SELECT CAST(SCOPE_IDENTITY() AS INT)")) {
+                    if (rsId.next()) {
+                        int id = rsId.getInt(1);
+                        if (!rsId.wasNull()) {
+                            return id;
+                        }
                     }
                 }
             }

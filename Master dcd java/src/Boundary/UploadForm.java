@@ -390,7 +390,7 @@ public class UploadForm extends JFrame {
             showErrorMessage("An unexpected error occurred.\nPlease try again.");
         } finally {
             // Reset button state
-            btnLogItem.setText("Log Item");
+            btnLogItem.setText("Log Found Item");
             btnLogItem.setEnabled(true);
         }
     }

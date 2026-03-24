@@ -99,12 +99,14 @@ public class ItemController {
         newItem.setLocation(location != null ? location.trim() : "");
         newItem.setPhotoPath(photoPath);
         newItem.setDateFound(dateFound != null ? dateFound : new java.util.Date());
-        // Must match FOUND_ITEM.Status CHECK constraint (ensure it matches database-allowed values)
-        newItem.setStatus("Found");
+        // Must match FOUND_ITEM.Status CHECK — allowed values: 'Unclaimed', 'Claimed', 'Pending'
+        newItem.setStatus("Unclaimed");
 
-        // Set officer information (placeholders for now)
-        newItem.setOfficerID(1); // TODO: Get from current logged-in officer
-        newItem.setOfficerName("Admin Officer"); // TODO: Get from current logged-in officer
+        // Set officer information from the active session
+        int sessionUserId = SessionManager.getInstance().getUserId();
+        newItem.setOfficerID(sessionUserId > 0 ? sessionUserId : 1);
+        String sessionUsername = SessionManager.getInstance().getUsername();
+        newItem.setOfficerName(sessionUsername != null && !sessionUsername.isEmpty() ? sessionUsername : "Officer");
 
         // Save to database via DAO obtained from the configured factory
         try {
@@ -112,13 +114,15 @@ public class ItemController {
             int newItemId = dao.saveItem(newItem);
 
             if (newItemId > 0) {
-                // Trigger Notification (Bridge Pattern)
-                NotificationSender sender = new InAppSender(); // Default to In-App
-                Notification notification = new ItemStatusNotification(sender);
-                notification.notify(SessionManager.getInstance().getUserId(), 
-                    "Successfully uploaded new item: " + title);
-
-                return newItemId; // Success
+                try {
+                    NotificationSender sender = new InAppSender();
+                    Notification notification = new ItemStatusNotification(sender);
+                    notification.notify(SessionManager.getInstance().getUserId(),
+                            "Successfully uploaded new item: " + title);
+                } catch (Exception ex) {
+                    System.err.println("Upload saved; notification skipped: " + ex.getMessage());
+                }
+                return newItemId;
             } else {
                 System.err.println("Failed to save item to database: Invalid response from DAO");
                 return -1; // Database error
