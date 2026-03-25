@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.*;
 import entity.Item;
 import dataaccess.DBConnection;
+import factory.ItemTypeFactory;
 import bridge.notification.*;
 import core.SessionManager;
 
@@ -151,6 +152,35 @@ public class ItemDataAccess {
             System.err.println("Error fetching all items: " + e.getMessage());
         }
         return items;
+    }
+
+    /**
+     * Get the item with the minimum ID (the "first" item)
+     * 
+     * @return Item object or null if no items exist
+     */
+    public Item getLowestIdItem() {
+        String sql = "SELECT TOP 1 ItemID, Title, Description, Category, Location, Photo, DateUploaded, Status FROM FOUND_ITEM ORDER BY ItemID ASC";
+
+        try (Connection conn = DBConnection.getInstance().getConnection();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                Item item = new Item();
+                item.setItemID(rs.getInt("ItemID"));
+                item.setTitle(rs.getString("Title"));
+                item.setDescription(rs.getString("Description"));
+                item.setItemType(factory.ItemTypeFactory.getItemType(rs.getString("Category"), rs.getString("Status")));
+                item.setLocation(rs.getString("Location"));
+                item.setPhotoPath(readPhotoPathColumn(rs, "Photo"));
+                item.setDateFound(rs.getDate("DateUploaded"));
+                return item;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching lowest ID item: " + e.getMessage());
+        }
+        return null;
     }
 
     /**

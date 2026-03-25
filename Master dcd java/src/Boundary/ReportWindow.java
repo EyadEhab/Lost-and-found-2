@@ -12,6 +12,8 @@ import report.ScreenReportFormatter;
 import factory.ui.UIFactory;
 import core.ThemeManager;
 import adapter.report.ItemReportAdapter;
+import adapter.image.PathImageAdapter;
+import adapter.image.ImageTarget;
 
 import entity.Item;
 
@@ -62,6 +64,9 @@ public class ReportWindow extends javax.swing.JFrame {
         JButton exportCsvButton = uiFactory.createButton("Export All Items (CSV)");
         exportCsvButton.addActionListener(e -> exportAllItemsToCsv());
 
+        JButton imageAdapterTestButton = uiFactory.createButton("image adapter test");
+        imageAdapterTestButton.addActionListener(e -> showImageAdapterTest());
+
         mainPanel.add(foundLabel);
         mainPanel.add(claimsLabel);
         mainPanel.add(collectedLabel);
@@ -69,6 +74,7 @@ public class ReportWindow extends javax.swing.JFrame {
         mainPanel.add(refreshButton);
         mainPanel.add(reportButton);
         mainPanel.add(exportCsvButton);
+        mainPanel.add(imageAdapterTestButton);
 
         getContentPane().setBackground(uiFactory.getBackgroundColor());
         add(mainPanel);
@@ -104,19 +110,6 @@ public class ReportWindow extends javax.swing.JFrame {
      * Shows Decorator-based report text (screen + simulated PDF) without changing
      * existing DAO behavior.
      */
-    private void showReportDecoratorDemo() {
-        String screenText = reportController.buildWeeklyReportDecorated(new ScreenReportFormatter(), null);
-        String pdfLikeText = reportController.buildWeeklyReportDecorated(new PdfReportFormatter(), null);
-        String csvText = reportController.buildWeeklyReportDecorated(new CsvReportFormatter(), null);
-
-        JTextArea area = new JTextArea(
-                screenText + "\n\n---\n\n" + pdfLikeText + "\n\n---\n\n" + csvText);
-        area.setEditable(false);
-        area.setRows(20);
-        area.setColumns(52);
-        JScrollPane scroll = new JScrollPane(area);
-        JOptionPane.showMessageDialog(this, scroll, "Report Decorator demo", JOptionPane.INFORMATION_MESSAGE);
-    }
 
     private void exportAllItemsToCsv() {
         // Fetch all items from DB
@@ -136,5 +129,37 @@ public class ReportWindow extends javax.swing.JFrame {
                 "Successfully exported items to:\n" + filePath,
                 "Export Successful",
                 JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Uses the Image Adapter (PathImageAdapter) to load and display the photo
+     * of the item with the lowest ItemID.
+     */
+    private void showImageAdapterTest() {
+        DAO.ItemDataAccess ida = new DAO.ItemDataAccess();
+        Item item = ida.getLowestIdItem();
+
+        if (item == null) {
+            JOptionPane.showMessageDialog(this, "no items found", "Image Adapter Test",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        String message = "Item ID: " + item.getItemID() + "\nTitle: " + item.getTitle();
+
+        // Use the Image Adapter pattern to convert path -> ImageIcon
+        ImageTarget imageAdapter = new PathImageAdapter(item.getPhotoPath());
+        ImageIcon icon = imageAdapter.getImageIcon();
+
+        if (icon == null || icon.getIconWidth() <= 0) {
+            JOptionPane.showMessageDialog(this, message + "\n(No photo found)", "Image Adapter Test",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // Scale image for display
+            Image scaled = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+            icon = new ImageIcon(scaled);
+            JOptionPane.showMessageDialog(this, message, "Image Adapter Test",
+                    JOptionPane.INFORMATION_MESSAGE, icon);
+        }
     }
 }
