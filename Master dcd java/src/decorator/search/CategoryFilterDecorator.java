@@ -36,4 +36,3 @@ public class CategoryFilterDecorator extends ItemSearchDecorator {
         return filtered;
     }
 }
-

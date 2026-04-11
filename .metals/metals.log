@@ -24,3 +24,21 @@
 2026.03.09 22:47:05 INFO  Memory monitor stopped
 2026.03.09 22:47:05 INFO  shutting down Metals
 2026.03.09 22:47:05 INFO  Exiting server
+2026.04.08 13:31:33 INFO  Started: Metals version 1.6.7 in folders 'D:\2026\software & design\Lost-and-found-2' for client Cursor 1.105.1.
+2026.04.08 13:31:33 INFO  Memory monitor started
+2026.04.08 13:31:33 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026.04.08 13:31:34 WARN  no build tool detected in workspace 'D:\2026\software & design\Lost-and-found-2'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2026.04.08 13:31:34 WARN  Build server is not auto-connectable.
+2026.04.08 13:31:34 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java
+2026.04.08 13:31:35 WARN  Running javac-semanticdb failed for file:///D:/2026/software%20&%20design/Lost-and-found-2/Master%20dcd%20java/src/master/dcd/MasterDcd.java. Output:
+
+2026.04.08 13:31:35 INFO  time: code lens generation in 1.14s
+2026.04.08 13:31:39 WARN  no build target for: D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java
+2026.04.08 13:32:25 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.04.08 13:32:28 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.04.08 13:32:32 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.04.08 13:33:39 INFO  no build target found for D:\2026\software & design\Lost-and-found-2\Master dcd java\src\master\dcd\MasterDcd.java. Using fallback presentation compiler.
+2026.04.08 13:35:01 INFO  Shutting down server
+2026.04.08 13:35:01 INFO  Memory monitor stopped
+2026.04.08 13:35:01 INFO  shutting down Metals
+2026.04.08 13:35:01 INFO  Exiting server

@@ -15,22 +15,23 @@ public class ItemTypeFactory {
      * Get an existing ItemTypeFlyweight or create a new one if it doesn't exist.
      * 
      * @param category items category (e.g., Electronics, Keys)
-     * @param status items status (e.g., Lost, Found, Claimed)
+     * @param status   items status (e.g., Lost, Found, Claimed)
      * @return shared ItemTypeFlyweight instance
      */
     public static synchronized ItemTypeFlyweight getItemType(String category, String status) {
         String key = (category == null ? "Unknown" : category) + ":" + (status == null ? "Unknown" : status);
-        
+
         if (!itemTypes.containsKey(key)) {
             itemTypes.put(key, new ItemTypeFlyweight(category, status));
             System.out.println("[Flyweight] Created new shared metadata instance for: " + key);
         }
-        
+
         return itemTypes.get(key);
     }
-    
+
     /**
      * Returns the number of unique flyweight objects currently in use.
+     * 
      * @return count of unique metadata objects
      */
     public static int getFlyweightCount() {
