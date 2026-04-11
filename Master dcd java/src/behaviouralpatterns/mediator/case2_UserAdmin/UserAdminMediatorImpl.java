@@ -5,6 +5,7 @@ import behaviouralpatterns.mediator.case2_UserAdmin.ActionColleague.ConfirmData;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +71,7 @@ public class UserAdminMediatorImpl implements UserAdminMediator {
             if (user != null) {
                 // Clear table and show only the found user
                 tableColleague.onMediatorEvent("CLEAR_TABLE", null);
-                tableColleague.onMediatorEvent("REFRESH_TABLE", List.of(user));
+                tableColleague.onMediatorEvent("REFRESH_TABLE", Collections.singletonList(user));
             } else {
                 tableColleague.onMediatorEvent("CLEAR_TABLE", null);
                 ActionColleague actionColleague =
