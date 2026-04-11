@@ -11,9 +11,6 @@ public class HandoverController {
     public HandoverController() {
     }
 
-
-
-
     /**
      * @param itemID
      * @param studentID
@@ -24,7 +21,7 @@ public class HandoverController {
     }
 
     /**
-     * @param studentID 
+     * @param studentID
      * @return
      */
     public boolean verifyCollectionCredentials(int studentID) {

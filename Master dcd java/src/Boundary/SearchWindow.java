@@ -27,12 +27,14 @@ public class SearchWindow extends JFrame {
     private JTextField locationField;
     private JComboBox<String> categoryCombo;
     private JComboBox<String> statusCombo;
+    private JComboBox<String> searchByCombo;   // Strategy Pattern: search type selector
     private JTable resultsTable;
     private DefaultTableModel tableModel;
     private JLabel searchIcon;
     private JLabel categoryIcon;
     private JLabel locationIcon;
     private JLabel statusIcon;
+    private JLabel searchByIcon;               // Strategy Pattern: label for selector
     private JLabel resultsCountLabel;
     private JPanel searchPanel;
     private JButton claimButton;
@@ -83,6 +85,17 @@ public class SearchWindow extends JFrame {
      */
     private void initializeComponents() {
         UIFactory factory = core.ThemeManager.getInstance().getFactory();
+
+        // Strategy Pattern: search type selector
+        searchByIcon = factory.createLabel("Search By:");
+        searchByIcon.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        searchByCombo = new JComboBox<>(new String[] { "All Fields", "Name", "Category", "Location" });
+        searchByCombo.setSelectedIndex(0);
+        searchByCombo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        searchByCombo.setBackground(factory.getSurfaceColor());
+        searchByCombo.setForeground(factory.getTextColor());
+        searchByCombo.setToolTipText("Select search strategy: search by Name, Category, or Location");
 
         // Search field with enhanced styling
         searchField = factory.createTextField(25);
@@ -229,46 +242,44 @@ public class SearchWindow extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Search section
+        // Row 0 — Strategy selector + Search keyword
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.EAST;
-        searchPanel.add(searchIcon, gbc);
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
+        searchPanel.add(searchByIcon, gbc);
 
         gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.NONE;
+        searchPanel.add(searchByCombo, gbc);
+
+        gbc.gridx = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.fill = GridBagConstraints.NONE;
+        searchPanel.add(searchIcon, gbc);
+
+        gbc.gridx = 3;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
         searchPanel.add(searchField, gbc);
 
-        // Category section
-        gbc.gridx = 2;
+        // Row 1 — Category section
+        gbc.gridy = 1;
+        gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.EAST;
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = 0.0;
         searchPanel.add(categoryIcon, gbc);
 
-        gbc.gridx = 3;
+        gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.NONE;
         searchPanel.add(categoryCombo, gbc);
 
-        // --- Second Row: Location & Status ---
-        gbc.gridy = 1;
-        gbc.weightx = 0.0;
-
-        // Location section
-        gbc.gridx = 0;
-        gbc.anchor = GridBagConstraints.EAST;
-        searchPanel.add(locationIcon, gbc);
-
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
-        searchPanel.add(locationField, gbc);
-
-        // Status section
+        // Row 1 continued — Status section
         gbc.gridx = 2;
         gbc.anchor = GridBagConstraints.EAST;
         gbc.fill = GridBagConstraints.NONE;
@@ -279,6 +290,20 @@ public class SearchWindow extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.NONE;
         searchPanel.add(statusCombo, gbc);
+
+        // Row 2 — Location section
+        gbc.gridy = 2;
+        gbc.weightx = 0.0;
+
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        searchPanel.add(locationIcon, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        searchPanel.add(locationField, gbc);
 
         // Center panel for results with enhanced styling
         JScrollPane scrollPane = new JScrollPane(resultsTable);
@@ -360,26 +385,46 @@ public class SearchWindow extends JFrame {
                 performSearch();
             }
         });
+
+        // Strategy Pattern: re-run search whenever the search type changes
+        searchByCombo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                performSearch();
+            }
+        });
     }
 
     /**
-     * Perform search using the controller
+     * Perform search using the controller.
+     *
+     * Routes to Strategy Pattern search when a specific search type is selected,
+     * or falls back to the Decorator Pattern multi-filter search for "All Fields".
      */
     private void performSearch() {
         try {
             String query = searchField.getText().trim();
+            String selectedType = (String) searchByCombo.getSelectedItem();
             String category = (String) categoryCombo.getSelectedItem();
             String location = locationField.getText().trim();
             String status = (String) statusCombo.getSelectedItem();
 
-            // Call controller with all filters
-            List<Item> results = matchingController.performSmartSearch(query, category, location, status);
+            List<Item> results;
+
+            if (!"All Fields".equals(selectedType) && !query.isEmpty()) {
+                // Strategy Pattern: delegate to the selected single-focus strategy
+                String strategyKey = selectedType.toLowerCase(); // "name", "category", "location"
+                results = matchingController.performStrategySearch(strategyKey, query);
+            } else {
+                // Decorator Pattern: multi-filter search (original behaviour preserved)
+                results = matchingController.performSmartSearch(query, category, location, status);
+            }
 
             // Update UI with results
             updateResultsTable(results);
 
             // Update results count
-            updateResultsCount(results.size(), query, category);
+            updateResultsCount(results.size(), query, selectedType);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,

@@ -19,7 +19,7 @@ public class OfficerDashboard extends JFrame {
         factory.ui.UIFactory uiFactory = core.ThemeManager.getInstance().getFactory();
         getContentPane().setBackground(uiFactory.getBackgroundColor());
 
-        JPanel panel = new JPanel(new GridLayout(3, 1, 15, 15));
+        JPanel panel = new JPanel(new GridLayout(4, 1, 15, 15));
         panel.setBackground(uiFactory.getBackgroundColor());
         panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
@@ -47,9 +47,17 @@ public class OfficerDashboard extends JFrame {
             window.setVisible(true);
         });
 
+        JButton claimsButton = uiFactory.createButton("Manage Claims");
+        claimsButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        claimsButton.addActionListener(e -> {
+            JFrame window = new OfficerClaimsWindow();
+            window.setVisible(true);
+        });
+
         panel.add(uploadButton);
         panel.add(editButton);
         panel.add(deleteButton);
+        panel.add(claimsButton);
 
         // Top Panel: Theme & Sign Out
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
