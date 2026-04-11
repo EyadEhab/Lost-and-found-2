@@ -10,7 +10,7 @@ public class AdminDashboard extends JFrame {
 
     public AdminDashboard() {
         setTitle("Admin Dashboard");
-        setSize(400, 200);
+        setSize(400, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -22,12 +22,13 @@ public class AdminDashboard extends JFrame {
         factory.ui.UIFactory uiFactory = core.ThemeManager.getInstance().getFactory();
         getContentPane().setBackground(uiFactory.getBackgroundColor());
 
-        JPanel panel = new JPanel(new GridLayout(2, 1, 20, 20));
+        JPanel panel = new JPanel(new GridLayout(2, 1, 20, 25));
         panel.setBackground(uiFactory.getBackgroundColor());
         panel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 
         JButton manageRolesButton = uiFactory.createButton("Manage Users & Roles");
         manageRolesButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        manageRolesButton.setPreferredSize(new Dimension(300, 50));
         manageRolesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,6 +38,7 @@ public class AdminDashboard extends JFrame {
 
         JButton reportsButton = uiFactory.createButton("View Reports");
         reportsButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        reportsButton.setPreferredSize(new Dimension(300, 50));
         reportsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

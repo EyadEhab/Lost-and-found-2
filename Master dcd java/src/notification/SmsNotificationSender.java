@@ -1,7 +1,7 @@
 package notification;
 
 /**
- * Concrete implementor: simulated SMS delivery (no carrier API).
+ * Concrete implementor: simulated SMS delivery.
  */
 public class SmsNotificationSender implements NotificationSender {
 
