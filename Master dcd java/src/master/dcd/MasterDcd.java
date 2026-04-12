@@ -19,6 +19,7 @@ public class MasterDcd {
      */
     public static void main(String[] args) {
         System.out.println("Application started.");
+        System.out.println("Classpath: " + System.getProperty("java.class.path"));
 
         // Launch Login Window
         java.awt.EventQueue.invokeLater(new Runnable() {

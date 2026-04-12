@@ -14,6 +14,8 @@ import java.util.List;
 import controller.MatchingController;
 import entity.Item;
 import factory.ui.UIFactory;
+// Observer + Singleton pattern integration
+import behaviouralpatterns.observer.case1_itemposting.ItemNotificationService;
 
 /**
  * Search Window for Lost and Found items
@@ -36,9 +38,14 @@ public class SearchWindow extends JFrame {
     private JLabel resultsCountLabel;
     private JPanel searchPanel;
     private JButton claimButton;
+    // Observer Pattern: subscribe current user to item alerts
+    private JButton subscribeBtn;
 
     // Controller
     private MatchingController matchingController;
+
+    // Observer + Singleton: service managing the current user's subscription
+    private final ItemNotificationService notificationService = new ItemNotificationService();
 
     // Categories
     private static final String[] CATEGORIES = {
@@ -133,6 +140,12 @@ public class SearchWindow extends JFrame {
         resultsCountLabel.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 14));
         resultsCountLabel.setForeground(factory.getTextColor());
 
+        // Observer Pattern: "Notify Me" toggle button
+        // Subscribes the logged-in user to alerts when a new item matches
+        // their current search filters (category / location / keyword).
+        subscribeBtn = factory.createButton("\uD83D\uDD14 Notify Me");
+        subscribeBtn.setToolTipText("Subscribe to alerts when a new item matches your current search filters");
+
         // Results table with enhanced styling
         String[] columnNames = { "ID", "Photo", "Title", "Category", "Description", "Location", "Date Found", "Status" };
         tableModel = new DefaultTableModel(columnNames, 0) {
@@ -215,9 +228,18 @@ public class SearchWindow extends JFrame {
         // Claim button for students
         claimButton = factory.createButton("Claim Selected Item");
         claimButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        claimButton.setBackground(new Color(40, 167, 69)); // Success green
+        claimButton.setBackground(new Color(40, 167, 69));
         claimButton.setForeground(Color.WHITE);
         claimButton.addActionListener(e -> initiateClaim());
+
+        // Observer unsubscribe — clean up when window is closed
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                // Remove the user from NotificationManager when they close the window
+                notificationService.unsubscribeCurrentUser();
+            }
+        });
 
         // Search panel setup
         searchPanel = new JPanel(new GridBagLayout());
@@ -302,6 +324,7 @@ public class SearchWindow extends JFrame {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         bottomPanel.setBackground(factory.getBackgroundColor());
         bottomPanel.add(claimButton);
+        bottomPanel.add(subscribeBtn);  // Observer: subscribe button next to claim
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         JPanel container = new JPanel(new BorderLayout());
@@ -360,6 +383,50 @@ public class SearchWindow extends JFrame {
                 performSearch();
             }
         });
+
+        // ── Observer Pattern: Subscribe button listener ──────────────────────
+        // When the user clicks "Notify Me", subscribe them using their
+        // current search filters as preferences.
+        // The NotificationManager (Singleton) stores this subscription and
+        // will call the observer automatically when ItemController posts a
+        // new item that matches.
+        subscribeBtn.addActionListener(e -> {
+            if (notificationService.isSubscribed()) {
+                // Already subscribed — toggle OFF
+                notificationService.unsubscribeCurrentUser();
+                subscribeBtn.setText("\uD83D\uDD14 Notify Me");
+                JOptionPane.showMessageDialog(this,
+                        "You will no longer receive item alerts.",
+                        "Unsubscribed", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Subscribe with the current filter values
+                String category = (String) categoryCombo.getSelectedItem();
+                String location = locationField.getText().trim();
+                String keyword  = searchField.getText().trim();
+
+                if ((category == null || category.equals("All Categories"))
+                        && location.isEmpty() && keyword.isEmpty()) {
+                    JOptionPane.showMessageDialog(this,
+                            "Please enter at least one filter (category, location, or keyword)\nbefore subscribing.",
+                            "No Filter Set", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                // Register with the Singleton NotificationManager via the service
+                notificationService.subscribeCurrentUser(
+                        category != null && !category.equals("All Categories") ? category : "",
+                        location,
+                        keyword);
+
+                subscribeBtn.setText("\u2705 Subscribed — Click to Stop");
+                JOptionPane.showMessageDialog(this,
+                        "You are now subscribed!\n"
+                        + "You will be notified when a new item matching your\n"
+                        + "current filters is posted in the system.",
+                        "Subscribed", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        // ─────────────────────────────────────────────────────────────────────
     }
 
     /**
@@ -448,6 +515,11 @@ public class SearchWindow extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
+
+        // Observer Pattern: after opening the claim window, unsubscribe the user
+        // because they found their item — no more notifications needed.
+        notificationService.unsubscribeCurrentUser();
+        subscribeBtn.setText("\uD83D\uDD14 Notify Me");
 
         new ClaimSubmissionWindow(itemID).setVisible(true);
     }

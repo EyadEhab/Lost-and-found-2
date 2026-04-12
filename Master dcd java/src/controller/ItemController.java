@@ -4,6 +4,8 @@ import factory.dao.DataAccessFactory;
 import factory.dao.SqlDataAccessFactory;
 import bridge.notification.*;
 import core.SessionManager;
+// Observer + Singleton integration
+import core.NotificationManager;
 
 /**
  *
@@ -114,14 +116,28 @@ public class ItemController {
             int newItemId = dao.saveItem(newItem);
 
             if (newItemId > 0) {
+                // ── Bridge Pattern: in-app notification to the uploading officer ──
                 try {
                     NotificationSender sender = new InAppSender();
                     Notification notification = new ItemStatusNotification(sender);
                     notification.notify(SessionManager.getInstance().getUserId(),
                             "Successfully uploaded new item: " + title);
                 } catch (Exception ex) {
-                    System.err.println("Upload saved; notification skipped: " + ex.getMessage());
+                    System.err.println("Upload saved; Bridge notification skipped: " + ex.getMessage());
                 }
+
+                // ── Observer Pattern: broadcast to all subscribed users ──────────
+                try {
+                    newItem.setItemID(newItemId); // Needs ID for observers
+                    
+                    // Triggering NotificationManager Singleton here:
+                    core.NotificationManager.getInstance().notifyObservers(newItem);
+                    
+                } catch (Exception ex) {
+                    System.err.println("Observer notification skipped: " + ex.getMessage());
+                }
+                // ────────────────────────────────────────────────────────────────
+
                 return newItemId;
             } else {
                 System.err.println("Failed to save item to database: Invalid response from DAO");
