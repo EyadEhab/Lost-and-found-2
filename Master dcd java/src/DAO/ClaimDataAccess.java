@@ -99,12 +99,62 @@ public class ClaimDataAccess {
     }
 
     /**
-     * @param id
-     * @param status
-     * @return
+     * Updates the status of an existing claim in the database.
+     * Called by ClaimController after a strategy processes a claim.
+     *
+     * @param id     the ClaimID to update
+     * @param status the new status string (e.g., "Approved - Strict", "Pending - Manual Review")
      */
     public void updateClaimStatus(int id, String status) {
-        // TODO implement here
+        System.out.println("Updating claim " + id + " to " + status);
+        String sql = "UPDATE CLAIM SET Status = ? WHERE ClaimID = ?";
+
+        try (Connection conn = DBConnection.getInstance().getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, status);
+            stmt.setInt(2, id);
+
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
+                System.out.println("Claim ID " + id + " status updated to: " + status);
+            } else {
+                System.err.println("Claim ID " + id + " not found for status update.");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error updating claim status: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Retrieves only pending claims from the database.
+     * Used by the officer claims management screen to show unprocessed work.
+     *
+     * @return list of claims with status "Pending"
+     */
+    public java.util.List<Claim> getPendingClaims() {
+        java.util.List<Claim> claims = new java.util.ArrayList<>();
+        String sql = "SELECT ClaimID, Status, DateInitiated, ClaimedByUserID, ItemID "
+                   + "FROM CLAIM WHERE Status = 'Pending' ORDER BY DateInitiated ASC";
+
+        try (Connection conn = DBConnection.getInstance().getConnection();
+                java.sql.Statement stmt = conn.createStatement();
+                java.sql.ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Claim claim = new Claim();
+                claim.setClaimID(rs.getInt("ClaimID"));
+                claim.setStatus(rs.getString("Status"));
+                claim.setRequestDate(rs.getDate("DateInitiated"));
+                claim.setStudentID(rs.getInt("ClaimedByUserID"));
+                claim.setItemID(rs.getInt("ItemID"));
+                claims.add(claim);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching pending claims: " + e.getMessage());
+        }
+        return claims;
     }
 
 }

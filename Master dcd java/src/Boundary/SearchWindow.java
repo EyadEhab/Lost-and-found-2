@@ -29,12 +29,14 @@ public class SearchWindow extends JFrame {
     private JTextField locationField;
     private JComboBox<String> categoryCombo;
     private JComboBox<String> statusCombo;
+    private JComboBox<String> searchByCombo; // Strategy Pattern: search type selector
     private JTable resultsTable;
     private DefaultTableModel tableModel;
     private JLabel searchIcon;
     private JLabel categoryIcon;
     private JLabel locationIcon;
     private JLabel statusIcon;
+    private JLabel searchByIcon; // Strategy Pattern: label for selector
     private JLabel resultsCountLabel;
     private JPanel searchPanel;
     private JButton claimButton;
@@ -90,6 +92,17 @@ public class SearchWindow extends JFrame {
      */
     private void initializeComponents() {
         UIFactory factory = core.ThemeManager.getInstance().getFactory();
+
+        // Strategy Pattern: search type selector
+        searchByIcon = factory.createLabel("Search By:");
+        searchByIcon.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        searchByCombo = new JComboBox<>(new String[] { "All Fields", "Name", "Category", "Location" });
+        searchByCombo.setSelectedIndex(0);
+        searchByCombo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        searchByCombo.setBackground(factory.getSurfaceColor());
+        searchByCombo.setForeground(factory.getTextColor());
+        searchByCombo.setToolTipText("Select search strategy: search by Name, Category, or Location");
 
         // Search field with enhanced styling
         searchField = factory.createTextField(25);
@@ -147,7 +160,8 @@ public class SearchWindow extends JFrame {
         subscribeBtn.setToolTipText("Subscribe to alerts when a new item matches your current search filters");
 
         // Results table with enhanced styling
-        String[] columnNames = { "ID", "Photo", "Title", "Category", "Description", "Location", "Date Found", "Status" };
+        String[] columnNames = { "ID", "Photo", "Title", "Category", "Description", "Location", "Date Found",
+                "Status" };
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -251,46 +265,44 @@ public class SearchWindow extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Search section
+        // Row 0 — Strategy selector + Search keyword
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.EAST;
-        searchPanel.add(searchIcon, gbc);
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
+        searchPanel.add(searchByIcon, gbc);
 
         gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.NONE;
+        searchPanel.add(searchByCombo, gbc);
+
+        gbc.gridx = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.fill = GridBagConstraints.NONE;
+        searchPanel.add(searchIcon, gbc);
+
+        gbc.gridx = 3;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
         searchPanel.add(searchField, gbc);
 
-        // Category section
-        gbc.gridx = 2;
+        // Row 1 — Category section
+        gbc.gridy = 1;
+        gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.EAST;
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = 0.0;
         searchPanel.add(categoryIcon, gbc);
 
-        gbc.gridx = 3;
+        gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.NONE;
         searchPanel.add(categoryCombo, gbc);
 
-        // --- Second Row: Location & Status ---
-        gbc.gridy = 1;
-        gbc.weightx = 0.0;
-
-        // Location section
-        gbc.gridx = 0;
-        gbc.anchor = GridBagConstraints.EAST;
-        searchPanel.add(locationIcon, gbc);
-
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
-        searchPanel.add(locationField, gbc);
-
-        // Status section
+        // Row 1 continued — Status section
         gbc.gridx = 2;
         gbc.anchor = GridBagConstraints.EAST;
         gbc.fill = GridBagConstraints.NONE;
@@ -301,6 +313,20 @@ public class SearchWindow extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.NONE;
         searchPanel.add(statusCombo, gbc);
+
+        // Row 2 — Location section
+        gbc.gridy = 2;
+        gbc.weightx = 0.0;
+
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        searchPanel.add(locationIcon, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        searchPanel.add(locationField, gbc);
 
         // Center panel for results with enhanced styling
         JScrollPane scrollPane = new JScrollPane(resultsTable);
@@ -324,7 +350,7 @@ public class SearchWindow extends JFrame {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         bottomPanel.setBackground(factory.getBackgroundColor());
         bottomPanel.add(claimButton);
-        bottomPanel.add(subscribeBtn);  // Observer: subscribe button next to claim
+        bottomPanel.add(subscribeBtn); // Observer: subscribe button next to claim
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         JPanel container = new JPanel(new BorderLayout());
@@ -369,11 +395,19 @@ public class SearchWindow extends JFrame {
         // Document listener for location field
         locationField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) { performSearch(); }
+            public void insertUpdate(DocumentEvent e) {
+                performSearch();
+            }
+
             @Override
-            public void removeUpdate(DocumentEvent e) { performSearch(); }
+            public void removeUpdate(DocumentEvent e) {
+                performSearch();
+            }
+
             @Override
-            public void changedUpdate(DocumentEvent e) { performSearch(); }
+            public void changedUpdate(DocumentEvent e) {
+                performSearch();
+            }
         });
 
         // Action listener for status combo box
@@ -383,70 +417,38 @@ public class SearchWindow extends JFrame {
                 performSearch();
             }
         });
-
-        // ── Observer Pattern: Subscribe button listener ──────────────────────
-        // When the user clicks "Notify Me", subscribe them using their
-        // current search filters as preferences.
-        // The NotificationManager (Singleton) stores this subscription and
-        // will call the observer automatically when ItemController posts a
-        // new item that matches.
-        subscribeBtn.addActionListener(e -> {
-            if (notificationService.isSubscribed()) {
-                // Already subscribed — toggle OFF
-                notificationService.unsubscribeCurrentUser();
-                subscribeBtn.setText("\uD83D\uDD14 Notify Me");
-                JOptionPane.showMessageDialog(this,
-                        "You will no longer receive item alerts.",
-                        "Unsubscribed", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                // Subscribe with the current filter values
-                String category = (String) categoryCombo.getSelectedItem();
-                String location = locationField.getText().trim();
-                String keyword  = searchField.getText().trim();
-
-                if ((category == null || category.equals("All Categories"))
-                        && location.isEmpty() && keyword.isEmpty()) {
-                    JOptionPane.showMessageDialog(this,
-                            "Please enter at least one filter (category, location, or keyword)\nbefore subscribing.",
-                            "No Filter Set", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                // Register with the Singleton NotificationManager via the service
-                notificationService.subscribeCurrentUser(
-                        category != null && !category.equals("All Categories") ? category : "",
-                        location,
-                        keyword);
-
-                subscribeBtn.setText("\u2705 Subscribed — Click to Stop");
-                JOptionPane.showMessageDialog(this,
-                        "You are now subscribed!\n"
-                        + "You will be notified when a new item matching your\n"
-                        + "current filters is posted in the system.",
-                        "Subscribed", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        // ─────────────────────────────────────────────────────────────────────
     }
 
     /**
-     * Perform search using the controller
+     * Perform search using the controller.
+     *
+     * Routes to Strategy Pattern search when a specific search type is selected,
+     * or falls back to the Decorator Pattern multi-filter search for "All Fields".
      */
     private void performSearch() {
         try {
             String query = searchField.getText().trim();
+            String selectedType = (String) searchByCombo.getSelectedItem();
             String category = (String) categoryCombo.getSelectedItem();
             String location = locationField.getText().trim();
             String status = (String) statusCombo.getSelectedItem();
 
-            // Call controller with all filters
-            List<Item> results = matchingController.performSmartSearch(query, category, location, status);
+            List<Item> results;
+
+            if (!"All Fields".equals(selectedType) && !query.isEmpty()) {
+                // Strategy Pattern: delegate to the selected single-focus strategy
+                String strategyKey = selectedType.toLowerCase(); // "name", "category", "location"
+                results = matchingController.performStrategySearch(strategyKey, query);
+            } else {
+                // Decorator Pattern: multi-filter search (original behaviour preserved)
+                results = matchingController.performSmartSearch(query, category, location, status);
+            }
 
             // Update UI with results
             updateResultsTable(results);
 
             // Update results count
-            updateResultsCount(results.size(), query, category);
+            updateResultsCount(results.size(), query, selectedType);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
