@@ -417,6 +417,50 @@ public class SearchWindow extends JFrame {
                 performSearch();
             }
         });
+
+        // ── Observer Pattern: Subscribe button listener ──────────────────────
+        // When the user clicks "Notify Me", subscribe them using their
+        // current search filters as preferences.
+        // The NotificationManager (Singleton) stores this subscription and
+        // will call the observer automatically when ItemController posts a
+        // new item that matches.
+        subscribeBtn.addActionListener(e -> {
+            if (notificationService.isSubscribed()) {
+                // Already subscribed — toggle OFF
+                notificationService.unsubscribeCurrentUser();
+                subscribeBtn.setText("\uD83D\uDD14 Notify Me");
+                JOptionPane.showMessageDialog(this,
+                        "You will no longer receive item alerts.",
+                        "Unsubscribed", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Subscribe with the current filter values
+                String category = (String) categoryCombo.getSelectedItem();
+                String location = locationField.getText().trim();
+                String keyword = searchField.getText().trim();
+
+                if ((category == null || category.equals("All Categories"))
+                        && location.isEmpty() && keyword.isEmpty()) {
+                    JOptionPane.showMessageDialog(this,
+                            "Please enter at least one filter (category, location, or keyword)\nbefore subscribing.",
+                            "No Filter Set", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                // Register with the Singleton NotificationManager via the service
+                notificationService.subscribeCurrentUser(
+                        category != null && !category.equals("All Categories") ? category : "",
+                        location,
+                        keyword);
+
+                subscribeBtn.setText("\u2705 Subscribed — Click to Stop");
+                JOptionPane.showMessageDialog(this,
+                        "You are now subscribed!\n"
+                                + "You will be notified when a new item matching your\n"
+                                + "current filters is posted in the system.",
+                        "Subscribed", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        // ─────────────────────────────────────────────────────────────────────
     }
 
     /**
