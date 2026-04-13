@@ -1,5 +1,8 @@
 {
     "files.watcherExclude": {
         "**/target": true
-    }
+    },
+    "java.project.referencedLibraries": [
+        "Master dcd java/lib/mssql-jdbc-13.2.1.jre8.jar"
+    ]
 }

@@ -1,7 +1,10 @@
 # Ignore database credentials
 db.properties
 sources.txt
-
+.vscode/settings.json
+build_run.bat
+sources_all.txt
+sources_quoted.txt
 # Build artifacts
 bin/
 build/
