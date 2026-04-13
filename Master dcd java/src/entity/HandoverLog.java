@@ -19,6 +19,11 @@ public class HandoverLog {
     private int logID;
 
     /**
+     *
+     */
+    private int claimID;
+
+    /**
      * 
      */
     private Date timestamp;
@@ -29,6 +34,10 @@ public class HandoverLog {
         return logID;
     }
 
+    public int getClaimID() {
+        return claimID;
+    }
+
     public Date getTimestamp() {
         return timestamp;
     }
@@ -36,6 +45,10 @@ public class HandoverLog {
     // Setters
     public void setLogID(int logID) {
         this.logID = logID;
+    }
+
+    public void setClaimID(int claimID) {
+        this.claimID = claimID;
     }
 
     public void setTimestamp(Date timestamp) {

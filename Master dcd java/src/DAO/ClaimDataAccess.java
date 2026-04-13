@@ -157,4 +157,34 @@ public class ClaimDataAccess {
         return claims;
     }
 
+    /**
+     * Retrieves a single claim by its ID.
+     *
+     * @param claimID claim primary key
+     * @return claim if found, otherwise null
+     */
+    public Claim getClaimById(int claimID) {
+        String sql = "SELECT ClaimID, Status, DateInitiated, ClaimedByUserID, ItemID FROM CLAIM WHERE ClaimID = ?";
+
+        try (Connection conn = DBConnection.getInstance().getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, claimID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Claim claim = new Claim();
+                    claim.setClaimID(rs.getInt("ClaimID"));
+                    claim.setStatus(rs.getString("Status"));
+                    claim.setRequestDate(rs.getDate("DateInitiated"));
+                    claim.setStudentID(rs.getInt("ClaimedByUserID"));
+                    claim.setItemID(rs.getInt("ItemID"));
+                    return claim;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching claim by ID: " + e.getMessage());
+        }
+        return null;
+    }
+
 }

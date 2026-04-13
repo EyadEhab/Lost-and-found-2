@@ -1,6 +1,8 @@
 package DAO;
 
 import entity.HandoverLog;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,6 +19,7 @@ public class HandoverDataAccess {
      *
      */
     private String connectionString;
+    private final List<HandoverLog> handoverLogs = new ArrayList<>();
 
     // Getters and Setters
     public String getConnectionString() {
@@ -32,7 +35,10 @@ public class HandoverDataAccess {
      * @return
      */
     public void createHandoverEntry(HandoverLog log) {
-        // TODO implement here
+        if (log == null) {
+            return;
+        }
+        handoverLogs.add(log);
     }
 
 }

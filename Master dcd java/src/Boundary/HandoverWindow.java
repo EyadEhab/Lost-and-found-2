@@ -1,5 +1,7 @@
 package Boundary;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  */
@@ -30,7 +32,10 @@ public class HandoverWindow {
      * @return
      */
     public void showHandoverSuccess() {
-        // TODO implement here
+        JOptionPane.showMessageDialog(null,
+                "Handover completed for Student ID: " + studentIDInput,
+                "Handover Successful",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
 }

@@ -1,6 +1,9 @@
 package controller;
 
 import java.util.*;
+import behaviouralpatterns.template_method.report_generation.ClaimedItemsReportGenerator;
+import behaviouralpatterns.template_method.report_generation.LostItemsReportGenerator;
+import behaviouralpatterns.template_method.report_generation.WeeklyReportGenerator;
 import entity.Claim;
 import entity.Item;
 import factory.dao.DataAccessFactory;
@@ -109,6 +112,31 @@ public class ReportController {
     public String buildClaimedItemsReportBridge(ReportFormatter formatter, List<Claim> claims) {
         List<Claim> safe = claims != null ? claims : fetchClaimedItems();
         return new ClaimedItemsReport(formatter, safe).export();
+    }
+
+    /**
+     * Template Method based weekly report generation.
+     */
+    public String buildWeeklyReportTemplate(Object dateRange) {
+        List<Item> items = createWeeklyReport(dateRange);
+        List<Item> safe = items != null ? items : Collections.emptyList();
+        return new WeeklyReportGenerator(safe).generateReport();
+    }
+
+    /**
+     * Template Method based lost/found report generation.
+     */
+    public String buildLostItemsReportTemplate(List<Item> items) {
+        List<Item> safe = items != null ? items : fetchLostItems();
+        return new LostItemsReportGenerator(safe).generateReport();
+    }
+
+    /**
+     * Template Method based claims report generation.
+     */
+    public String buildClaimedItemsReportTemplate(List<Claim> claims) {
+        List<Claim> safe = claims != null ? claims : fetchClaimedItems();
+        return new ClaimedItemsReportGenerator(safe).generateReport();
     }
 
 }

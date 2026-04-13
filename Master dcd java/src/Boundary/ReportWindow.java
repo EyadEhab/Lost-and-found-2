@@ -3,7 +3,6 @@ package Boundary;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
-import notification.NotificationBridgeDemo;
 import controller.ReportController;
 import dataaccess.DBConnection;
 import report.CsvReportFormatter;
@@ -61,6 +60,9 @@ public class ReportWindow extends javax.swing.JFrame {
         JButton reportButton = uiFactory.createButton("Report Bridge");
         reportButton.addActionListener(e -> showReportBridgeDemo());
 
+        JButton templateMethodButton = uiFactory.createButton("Report Template Method");
+        templateMethodButton.addActionListener(e -> showReportTemplateMethodDemo());
+
         JButton exportCsvButton = uiFactory.createButton("Export All Items (CSV)");
         exportCsvButton.addActionListener(e -> exportAllItemsToCsv());
 
@@ -73,6 +75,7 @@ public class ReportWindow extends javax.swing.JFrame {
         mainPanel.add(notCollectedLabel);
         mainPanel.add(refreshButton);
         mainPanel.add(reportButton);
+        mainPanel.add(templateMethodButton);
         mainPanel.add(exportCsvButton);
         mainPanel.add(imageAdapterTestButton);
 
@@ -104,6 +107,23 @@ public class ReportWindow extends javax.swing.JFrame {
         area.setColumns(48);
         JScrollPane scroll = new JScrollPane(area);
         JOptionPane.showMessageDialog(this, scroll, "Report Bridge demo", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Shows Template Method based report output from the separate hierarchy.
+     */
+    private void showReportTemplateMethodDemo() {
+        String weeklyText = reportController.buildWeeklyReportTemplate(null);
+        String lostItemsText = reportController.buildLostItemsReportTemplate(null);
+        String claimsText = reportController.buildClaimedItemsReportTemplate(null);
+
+        JTextArea area = new JTextArea(
+                weeklyText + "\n\n---\n\n" + lostItemsText + "\n\n---\n\n" + claimsText);
+        area.setEditable(false);
+        area.setRows(16);
+        area.setColumns(48);
+        JScrollPane scroll = new JScrollPane(area);
+        JOptionPane.showMessageDialog(this, scroll, "Report Template Method demo", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
