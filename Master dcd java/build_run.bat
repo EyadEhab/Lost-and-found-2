@@ -13,5 +13,5 @@ if errorlevel 1 (
 )
 
 echo Compilation successful! Running...
-java -cp "%BIN%;%CP%" master.dcd.MasterDcd
+java -Djava.library.path="%BASE%." -cp "%BIN%;%CP%" master.dcd.MasterDcd
 pause

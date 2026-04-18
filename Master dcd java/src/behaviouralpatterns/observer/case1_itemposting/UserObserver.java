@@ -91,19 +91,16 @@ public class UserObserver implements ItemObserver {
 
         // ── Notify only if at least one criterion matches ─────────────────────
         if (categoryMatch || locationMatch || keywordMatch) {
-            System.out.println("  ✔ [NOTIFICATION]"
-                    + " → User #" + user.getUserID()
-                    + " (" + user.getEmail() + ")"
-                    + "\n      A new item matches your subscription!"
-                    + "\n      Item #" + postedItem.getItemID()
-                    + " | Title: \""    + postedItem.getTitle() + "\""
-                    + " | Category: "   + postedItem.getCategory()
-                    + " | Location: "   + postedItem.getLocation()
-                    + " | Status: "     + postedItem.getStatus()
-                    + "\n      Matched on: "
-                    + (categoryMatch ? "[Category=" + subscribedCategory + "] " : "")
-                    + (locationMatch ? "[Location=" + subscribedLocation + "] " : "")
-                    + (keywordMatch  ? "[Keyword="  + subscribedKeyword  + "]"  : ""));
+            String msg = "New item matches your subscription: " + postedItem.getTitle();
+            
+            // 1. Log to console (immediate alert)
+            System.out.println("  ✔ [NOTIFICATION] To: User #" + user.getUserID() + " (" + user.getEmail() + ")");
+            System.out.println("      " + msg);
+            
+            // 2. Persist in system history (Singleton manager)
+            NotificationManager.getInstance().addNotificationRecord(
+                new entity.NotificationRecord(user.getUserID(), msg, "In-App")
+            );
         }
         // else: item does not match this user's interests → silent, no output
     }

@@ -5,7 +5,7 @@ import factory.dao.SqlDataAccessFactory;
 import bridge.notification.*;
 import core.SessionManager;
 // Observer + Singleton integration
-import core.NotificationManager;
+import behaviouralpatterns.observer.case1_itemposting.NotificationManager;
 
 /**
  *
@@ -130,8 +130,8 @@ public class ItemController {
                 try {
                     newItem.setItemID(newItemId); // Needs ID for observers
                     
-                    // Triggering NotificationManager Singleton here:
-                    core.NotificationManager.getInstance().notifyObservers(newItem);
+                    // Triggering the refined NotificationManager Singleton:
+                    NotificationManager.getInstance().notifyObservers(newItem);
                     
                 } catch (Exception ex) {
                     System.err.println("Observer notification skipped: " + ex.getMessage());

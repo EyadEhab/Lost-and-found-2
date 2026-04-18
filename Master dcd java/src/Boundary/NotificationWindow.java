@@ -1,6 +1,6 @@
 package Boundary;
 
-import core.NotificationManager;
+import behaviouralpatterns.observer.case1_itemposting.NotificationManager;
 import core.SessionManager;
 import core.ThemeManager;
 import entity.NotificationRecord;
