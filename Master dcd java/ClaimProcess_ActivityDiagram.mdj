@@ -1,0 +1,315 @@
+{
+  "_type": "Project",
+  "_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "name": "LostAndFound_Project",
+  "version": "6.3.1",
+  "ownedElements": [
+    {
+      "_type": "Model",
+      "_id": "m1a2b3c4-d5e6-f789-0abc-def123456789",
+      "name": "Main Model",
+      "ownedElements": [
+        {
+          "_type": "ActivityDiagram",
+          "_id": "ad123456-7890-abcd-ef12-34567890abcd",
+          "name": "Item Claim Process",
+          "documentation": "Activity Diagram showing the workflow for a student claiming a lost item",
+          "ownedElements": [
+            {
+              "_type": "ActivityPartition",
+              "_id": "ap-student-001",
+              "name": "Student",
+              "isHorizontal": false,
+              "ownedElements": [
+                {
+                  "_type": "InitialNode",
+                  "_id": "in-001",
+                  "name": "Start",
+                  "location": { "x": 100, "y": 50 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-login-001",
+                  "name": "Login to System",
+                  "location": { "x": 100, "y": 120 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-search-001",
+                  "name": "Search Lost Items",
+                  "location": { "x": 100, "y": 190 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-select-001",
+                  "name": "Select Item to Claim",
+                  "location": { "x": 100, "y": 260 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-submit-001",
+                  "name": "Submit Claim Form\n(Description, Proof, Contact)",
+                  "location": { "x": 100, "y": 330 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-notify-001",
+                  "name": "Receive Notification\n(Approved/Rejected)",
+                  "location": { "x": 100, "y": 550 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-collect-001",
+                  "name": "Collect Item at Handover",
+                  "location": { "x": 100, "y": 620 }
+                },
+                {
+                  "_type": "FinalNode",
+                  "_id": "fn-001",
+                  "name": "End",
+                  "location": { "x": 100, "y": 690 }
+                }
+              ]
+            },
+            {
+              "_type": "ActivityPartition",
+              "_id": "ap-system-001",
+              "name": "System",
+              "isHorizontal": false,
+              "ownedElements": [
+                {
+                  "_type": "Action",
+                  "_id": "act-validate-001",
+                  "name": "Validate Claim Data Format",
+                  "location": { "x": 400, "y": 330 }
+                },
+                {
+                  "_type": "DecisionNode",
+                  "_id": "dn-valid-001",
+                  "name": "Claim Valid?",
+                  "location": { "x": 400, "y": 400 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-reject-001",
+                  "name": "Send Rejection Notice",
+                  "location": { "x": 550, "y": 470 }
+                },
+                {
+                  "_type": "MergeNode",
+                  "_id": "mn-reject-001",
+                  "name": "",
+                  "location": { "x": 550, "y": 540 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-create-001",
+                  "name": "Create Claim Record\n(Status: Pending)",
+                  "location": { "x": 250, "y": 470 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-notify-officer-001",
+                  "name": "Notify Officer of New Claim",
+                  "location": { "x": 250, "y": 540 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-update-001",
+                  "name": "Update Item Status &\nGenerate Handover Code",
+                  "location": { "x": 400, "y": 620 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-log-001",
+                  "name": "Log Transaction to Database",
+                  "location": { "x": 400, "y": 690 }
+                }
+              ]
+            },
+            {
+              "_type": "ActivityPartition",
+              "_id": "ap-officer-001",
+              "name": "Officer",
+              "isHorizontal": false,
+              "ownedElements": [
+                {
+                  "_type": "Action",
+                  "_id": "act-review-001",
+                  "name": "Review Claim Details & Proof",
+                  "location": { "x": 700, "y": 540 }
+                },
+                {
+                  "_type": "DecisionNode",
+                  "_id": "dn-approve-001",
+                  "name": "Approve Claim?",
+                  "location": { "x": 700, "y": 610 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-reject-officer-001",
+                  "name": "Add Rejection Reason &\nNotify Student",
+                  "location": { "x": 850, "y": 680 }
+                },
+                {
+                  "_type": "MergeNode",
+                  "_id": "mn-approve-001",
+                  "name": "",
+                  "location": { "x": 850, "y": 750 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-approve-001",
+                  "name": "Approve Claim &\nPrepare Item for Pickup",
+                  "location": { "x": 550, "y": 680 }
+                },
+                {
+                  "_type": "Action",
+                  "_id": "act-verify-001",
+                  "name": "Verify Student Identity &\nHandover Code at Pickup",
+                  "location": { "x": 700, "y": 820 }
+                }
+              ]
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-001",
+              "source": { "_ref": "in-001" },
+              "target": { "_ref": "act-login-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-002",
+              "source": { "_ref": "act-login-001" },
+              "target": { "_ref": "act-search-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-003",
+              "source": { "_ref": "act-search-001" },
+              "target": { "_ref": "act-select-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-004",
+              "source": { "_ref": "act-select-001" },
+              "target": { "_ref": "act-submit-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-005",
+              "source": { "_ref": "act-submit-001" },
+              "target": { "_ref": "act-validate-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-006",
+              "source": { "_ref": "act-validate-001" },
+              "target": { "_ref": "dn-valid-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-007",
+              "name": "[Invalid]",
+              "source": { "_ref": "dn-valid-001" },
+              "target": { "_ref": "act-reject-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-008",
+              "name": "[Valid]",
+              "source": { "_ref": "dn-valid-001" },
+              "target": { "_ref": "act-create-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-009",
+              "source": { "_ref": "act-reject-001" },
+              "target": { "_ref": "mn-reject-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-010",
+              "source": { "_ref": "mn-reject-001" },
+              "target": { "_ref": "act-notify-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-011",
+              "source": { "_ref": "act-create-001" },
+              "target": { "_ref": "act-notify-officer-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-012",
+              "source": { "_ref": "act-notify-officer-001" },
+              "target": { "_ref": "act-review-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-013",
+              "source": { "_ref": "act-review-001" },
+              "target": { "_ref": "dn-approve-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-014",
+              "name": "[Reject]",
+              "source": { "_ref": "dn-approve-001" },
+              "target": { "_ref": "act-reject-officer-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-015",
+              "name": "[Approve]",
+              "source": { "_ref": "dn-approve-001" },
+              "target": { "_ref": "act-approve-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-016",
+              "source": { "_ref": "act-reject-officer-001" },
+              "target": { "_ref": "mn-approve-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-017",
+              "source": { "_ref": "mn-approve-001" },
+              "target": { "_ref": "act-notify-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-018",
+              "source": { "_ref": "act-approve-001" },
+              "target": { "_ref": "act-update-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-019",
+              "source": { "_ref": "act-update-001" },
+              "target": { "_ref": "act-log-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-020",
+              "source": { "_ref": "act-log-001" },
+              "target": { "_ref": "act-collect-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-021",
+              "source": { "_ref": "act-collect-001" },
+              "target": { "_ref": "act-verify-001" }
+            },
+            {
+              "_type": "ControlFlow",
+              "_id": "cf-022",
+              "source": { "_ref": "act-verify-001" },
+              "target": { "_ref": "fn-001" }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
