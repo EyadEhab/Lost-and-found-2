@@ -5,25 +5,6 @@
 	"ownedElements": [
 		{
 			"_type": "UMLModel",
-			"_id": "AAAAAAFF+qBWK6M3Z8Y=",
-			"_parent": {
-				"$ref": "AAAAAAFF+h6SjaM2Hec="
-			},
-			"name": "Model",
-			"ownedElements": [
-				{
-					"_type": "UMLClassDiagram",
-					"_id": "AAAAAAFF+qBtyKM79qY=",
-					"_parent": {
-						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
-					},
-					"name": "Main",
-					"defaultDiagram": true
-				}
-			]
-		},
-		{
-			"_type": "UMLModel",
 			"_id": "AAAAAAGd4A3JsG9R63o=",
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
@@ -36,7 +17,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGd4A3JsG9R63o="
 					},
-					"name": "ComponentDiagram1",
+					"name": "Block diagram",
 					"ownedViews": [
 						{
 							"_type": "UMLActorView",
@@ -548,7 +529,7 @@
 											"top": 238,
 											"width": 42.17724609375,
 											"height": 13,
-											"text": "Actor1"
+											"text": "User"
 										},
 										{
 											"_type": "LabelView",
