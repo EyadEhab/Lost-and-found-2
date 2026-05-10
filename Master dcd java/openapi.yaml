@@ -1,0 +1,53 @@
+openapi: 3.0.0
+info:
+  title: Lost and Found API
+  version: 1.0.0
+  description: Service-Oriented REST APIs for managing lost items and student claims.
+paths:
+  /api/items:
+    get:
+      summary: Retrieve all items
+      responses:
+        '200':
+          description: A list of items
+    post:
+      summary: Create a new item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '201':
+          description: Item created successfully
+          
+  /api/process-claim:
+    post:
+      summary: Process a claim (Composite Service)
+      description: Orchestrates updating a claim status and the corresponding item status.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                claimID:
+                  type: integer
+                  example: 1006
+                action:
+                  type: string
+                  example: "Approve"
+      responses:
+        '200':
+          description: Workflow completed successfully
+        '400':
+          description: Missing claimID or action
+        '404':
+          description: Claim not found
